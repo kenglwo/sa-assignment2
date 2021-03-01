@@ -149,7 +149,7 @@ Please refer to [FAQ Q9](./Assignment1_FAQ.md#9-how-to-preserve-the-line-number-
 - `5%` if the results by your code are correct.
 
 ### Program output:
-For each coverage criterion (Task2, Task3, and Bonus Task), your program needs to at least output the following:
+For each coverage criterion (Task2, Task3, and Bonus Task), your program needs to generate a report file, which at least contains the following:
 
 1. The coverage of each statement/branch/line (statement/branch/line, yes or no).
 2. The coverage for each class (percentage), including inner classes.
