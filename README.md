@@ -151,8 +151,8 @@ Please refer to [FAQ Q9](./Assignment1_FAQ.md#9-how-to-preserve-the-line-number-
 ### Program output:
 For each coverage criterion (Task2, Task3, and Bonus Task), your program needs to at least output the following:
 
-1. The coverage of each statement (statement, yes or no).
-2. The statement coverage for each class (percentage), including inner classes.
+1. The coverage of each statement/branch/line (statement/branch/line, yes or no).
+2. The coverage for each class (percentage), including inner classes.
 
 ### Submissions:
 1. You may put your source code under `comp5111.assignment` package in `src/main/java` folder.
