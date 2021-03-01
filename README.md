@@ -83,7 +83,8 @@ Note that if it is impossible to locate faults with no failing tests.
 You need to use these test suites for fault localization.
 
 #### Requirements
-- Use Soot to instrument CUT and collect necessary information during the running of tests.
+- Instrument CUT with soot to collect necessary information during the running of tests.
+- Run the **three fault-revealing test suites** we provide.
 - Implement the classic fault localization algorithm **Ochiai** to compute the fault likelihood of each statement and generate a report for fault localization.
 
 #### Notes
