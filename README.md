@@ -1,6 +1,6 @@
 # COMP5111 (Spring 2021) Assignment 2
 
-##Deadline: April 6, 2021 - 23:55
+## Deadline: April 6, 2021 - 23:55
 
 ### Have Questions?
 1. If you have questions, please first check our [FAQ](Assignment2_FAQ.md).
