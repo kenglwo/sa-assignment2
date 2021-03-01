@@ -102,3 +102,4 @@ src/test/randoop*
 target
 src/test/report
 /bin/
+.DS_Store
