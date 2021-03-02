@@ -20,7 +20,7 @@ The objectives of this assignment are three-fold.
    The newly constructed test cases should help improve test coverage for effective fault detection.
 2. You will implement a fault localization tool on top of Soot. 
    Your tool should be able to locate our injected faults and eventually fix them.
-3. You will select the test cases to improve the ranking of fault localization.
+3. You will refine the test suite to improve the ranking of fault localization.
 
 ## Assignment Material
 
