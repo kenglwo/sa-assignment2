@@ -129,7 +129,8 @@ In such circumstances, you may consider to refine the test suite by adding manua
 
 #### Requirements
 - Refine each of the six test suite to improve the fault-localization results in Task 2 by adding new tests. 
-- You are not allowed to delete exisint tests or duplicate your manually-written tests.
+- You are not allowed to delete exisint tests.
+- Manually-written tests in each test suite should not contain duplicate ones.
 - `Ochiai` algorithm should be used in the fault localizatoin. 
 
 #### Submissions
