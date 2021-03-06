@@ -145,15 +145,14 @@ In such circumstances, you may consider to enrich the test suite by adding manua
 
 #### Grading Scheme:
 *Effectiveness of test cases* (25%). 
-For each of the N faulty statements seeded, your score will depend on the average ranking of the faulty statement using the six refined test suites:
-\scc{We may need to revise the grading scheme as many statements could have the same ranking. Please refer to the grading formula designed by Victor in the previous offering.}
+Your grade in this task is related to both your average ranking of each injected fault (the higher, the better), and the average number of statements you add in each test suite (the fewer, the better).
 
-1. If it is ranked highest, your score = (25 / N) * 100%
-2. Else if it is ranked in the top 5 faulty statements, your score = (25 / N) * 90%
-3. Else if it is ranked in the top 10 faulty statements, your score = (25 / N) * 80%
-4. Else if it is ranked in the top 20 faulty statements, your score = (25 / N) * 60%
-5. Else if it is ranked in the top 50 faulty statements, your score = (25 / N) * 40%
-6. Else, your score = (25 / N) * 30%
+Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`your ranking` - `worst ranking among classmates`| / |`best ranking among class` - `worst ranking among classmates`|
+
+If we use `NS` to represent the average number of statements that a student add to each test suite, 
+your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NS` - `largest NS among classmates`| / |`smallest NS among classmates` - `largest NS among classmates`|
+
+\scc{We may need to revise the grading scheme as many statements could have the same ranking. Please refer to the grading formula designed by Victor in the previous offering.}
 
 **NOTE** We will run your refined test suites using our fault localization tool. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
