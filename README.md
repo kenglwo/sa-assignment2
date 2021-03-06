@@ -109,7 +109,7 @@ You need to locate and fix them as many as bugs as you can.
    The report should be sorted according the descending order of suspicious scores.
    If multiple statements have the same scores, please sort them according to the alphabetical order of method signature and statement.
    The method signature could be obtained using Soot API [getMethod()](https://www.sable.mcgill.ca/soot/doc/soot/Body.html#getMethod()).
-   The ranking of suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.7) their rankings are (1, 2, 2, 4), respectively.
+   The ranking of suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.8, 0.8, 0.7) their rankings are (1, 3, 3, 3, 3, 5), respectively.
 3. The reports of the faults found and fixed by you. 
    For each fault, you should create a `.txt` file and name it in the format `fault_[line-number].txt`, where `line-number` is the line number of the fault. 
    In each text file, please
@@ -151,8 +151,6 @@ Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`yo
 
 If we use `NS` to represent the average number of statements in the manually-written tests that a student add to each test suite, 
 your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NS` - `largest NS among classmates`| / |`smallest NS among classmates` - `largest NS among classmates`|
-
-\scc{We may need to revise the grading scheme as many statements could have the same ranking. Please refer to the grading formula designed by Victor in the previous offering.}
 
 **NOTE** We will run your refined test suites using our fault localization tool. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
