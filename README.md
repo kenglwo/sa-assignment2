@@ -149,7 +149,7 @@ In such circumstances, you may consider to enrich the test suite by adding manua
 *Effectiveness of test cases* (25%). 
 Your grade in this task is related to both your average ranking (as mentioned in Task 2) of each injected fault (the higher, the better), and the average number of manually-written tests you add in each test suite (the fewer, the better).
 
-Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * (`your ranking` - `default ranking`) / (`default ranking` - `best ranking among class`), where `default ranking` is the ranking based on the provided test suite.
+Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * (`your ranking` - `default ranking`) / (`default ranking` - `best ranking among class`), where N is the total number of injected faulty statements, and `default ranking` is the ranking based on the provided test suite.
 
 Suppose `NT` represents the average number of manually-written tests that you have added to each of the given six test suite. 
 The total grade is given by ΣScore<sub>s</sub> *  (`largest NT among classmates` - `your NT`) / (`largest NT among classmates` - `smallest NT among classmates`)
