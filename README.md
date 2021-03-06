@@ -97,7 +97,8 @@ There are multiple bugs injected in the subject program and each of them is in s
 It is possible that some test suite cannot reveal all injected faults, but each fault is revealed by at least one test suite. 
 You need to locate and fix them as many as bugs as you can.
 
-The ranking of suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.8, 0.8, 0.7) their rankings are (1, 3, 3, 3, 3, 5), respectively.
+#### Ranking of Suspicious Statements
+The ranking of a statement with suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.8, 0.8, 0.7) their rankings are (1, 3, 3, 3, 3, 5), respectively.
 
 #### Submissions
 
