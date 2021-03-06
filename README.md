@@ -149,7 +149,7 @@ Your grade in this task is related to both your average ranking of each injected
 
 Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`your ranking` - `worst ranking among classmates`| / |`best ranking among class` - `worst ranking among classmates`|
 
-If we use `NS` to represent the average number of statements that a student add to each test suite, 
+If we use `NS` to represent the average number of statements in the manually-written tests that a student add to each test suite, 
 your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NS` - `largest NS among classmates`| / |`smallest NS among classmates` - `largest NS among classmates`|
 
 \scc{We may need to revise the grading scheme as many statements could have the same ranking. Please refer to the grading formula designed by Victor in the previous offering.}
