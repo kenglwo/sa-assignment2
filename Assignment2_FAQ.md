@@ -65,7 +65,7 @@ public class JUnitTestRunner {
 In Task 2 and 3, we require you to use `Ochiai` ranking function as mentioned in the lecture slides: 
 ![Ochiai Formula](./img/ochiai_formula.png)
 
-`Ochiai` computes suspicious score for each statement, while many of them may turn out to have the same score. 
+`Ochiai` computes suspicious score for each statement. It is possible that multiple statements receive the same score. 
 To break this tie, we require you to compute the ranking for each statement based on the suspicious score, [as mentioned in Task 2](https://github.com/CastleLab/COMP5111-assignment-Student-Version/tree/assignment2#ranking-of-suspicious-statements). 
 
-In an extreme case, if a faulty statement has the highest suspicious score along with 100 other statements, the ranking of the faulty statement is `50th` instead of `1st`. 
+For example, if a faulty statement is ranked nth together with m other statement, the rank of the faulty statement will be averaged, i.e., (2n+m)/2. 
