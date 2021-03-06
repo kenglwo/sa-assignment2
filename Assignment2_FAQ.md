@@ -12,7 +12,7 @@ If you have more questions on the assignment, please contact the TA
 ```
 3. Remove the `extends *_ESTest_scaffolding`
 
-## In the fault localization, how can we run each Junit test separately and get the execution results (pass/fail)?
+## Q2. In the fault localization, how can we run each Junit test separately and get the execution results (pass/fail)?
 There are multiple ways. 
 Our suggestion is use the API `org.junit.runner.notification.RunListener`,  whose reference 
 is [here](https://junit.org/junit4/javadoc/4.12/org/junit/runner/notification/RunListener.html).
@@ -59,6 +59,4 @@ public class JUnitTestRunner {
 	}
 }
 ```
-
-
 
