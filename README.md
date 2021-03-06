@@ -154,7 +154,7 @@ Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`yo
 If we use `NT` to represent the average number of manually-written tests that a student adds to each test suite, 
 your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NT` - `largest NT among classmates`| / |`smallest NT among classmates` - `largest NT among classmates`|
 
-**NOTE** We will run your refined test suites using our fault localization tool. 
+**NOTE** We will run your refined test suites using our fault localization tool with `Ochiai` ranking function. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
 
 ### Bonus Task (15%)
