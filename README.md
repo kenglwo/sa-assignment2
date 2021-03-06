@@ -97,6 +97,8 @@ There are multiple bugs injected in the subject program and each of them is in s
 It is possible that some test suite cannot reveal all injected faults, but each fault is revealed by at least one test suite. 
 You need to locate and fix them as many as bugs as you can.
 
+The ranking of suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.8, 0.8, 0.7) their rankings are (1, 3, 3, 3, 3, 5), respectively.
+
 #### Submissions
 
 1. The source code of your program. 
@@ -109,7 +111,6 @@ You need to locate and fix them as many as bugs as you can.
    The report should be sorted according the descending order of suspicious scores.
    If multiple statements have the same scores, please sort them according to the alphabetical order of method signature and statement.
    The method signature could be obtained using Soot API [getMethod()](https://www.sable.mcgill.ca/soot/doc/soot/Body.html#getMethod()).
-   The ranking of suspicious score $a$ should be computed  as $\frac{N+M+1}{2}$, where N is the number of statements whose suspicious scores are higher than $a$ and M is the number of statements whose suspicious scores are higher than or equal to $a$. For example, if a sequence of suspicious scores is (0.9, 0.8, 0.8, 0.8, 0.8, 0.7) their rankings are (1, 3, 3, 3, 3, 5), respectively.
 3. The reports of the faults found and fixed by you. 
    For each fault, you should create a `.txt` file and name it in the format `fault_[line-number].txt`, where `line-number` is the line number of the fault. 
    In each text file, please
@@ -145,7 +146,7 @@ In such circumstances, you may consider to enrich the test suite by adding manua
 
 #### Grading Scheme:
 *Effectiveness of test cases* (25%). 
-Your grade in this task is related to both your average ranking of each injected fault (the higher, the better), and the average number of manually-written tests you add in each test suite (the fewer, the better).
+Your grade in this task is related to both your average ranking (as mentioned in Task 2) of each injected fault (the higher, the better), and the average number of manually-written tests you add in each test suite (the fewer, the better).
 
 Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`your ranking` - `worst ranking among classmates`| / |`best ranking among class` - `worst ranking among classmates`|
 
