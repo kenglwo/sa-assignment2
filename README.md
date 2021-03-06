@@ -145,12 +145,12 @@ In such circumstances, you may consider to enrich the test suite by adding manua
 
 #### Grading Scheme:
 *Effectiveness of test cases* (25%). 
-Your grade in this task is related to both your average ranking of each injected fault (the higher, the better), and the average number of statements you add in each test suite (the fewer, the better).
+Your grade in this task is related to both your average ranking of each injected fault (the higher, the better), and the average number of manually-written tests you add in each test suite (the fewer, the better).
 
 Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`your ranking` - `worst ranking among classmates`| / |`best ranking among class` - `worst ranking among classmates`|
 
-If we use `NS` to represent the average number of statements in the manually-written tests that a student add to each test suite, 
-your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NS` - `largest NS among classmates`| / |`smallest NS among classmates` - `largest NS among classmates`|
+If we use `NT` to represent the average number of manually-written tests that a student adds to each test suite, 
+your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NT` - `largest NT among classmates`| / |`smallest NT among classmates` - `largest NT among classmates`|
 
 **NOTE** We will run your refined test suites using our fault localization tool. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
