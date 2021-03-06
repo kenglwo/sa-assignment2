@@ -149,10 +149,10 @@ In such circumstances, you may consider to enrich the test suite by adding manua
 *Effectiveness of test cases* (25%). 
 Your grade in this task is related to both your average ranking (as mentioned in Task 2) of each injected fault (the higher, the better), and the average number of manually-written tests you add in each test suite (the fewer, the better).
 
-Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * |`your ranking` - `worst ranking among classmates`| / |`best ranking among class` - `worst ranking among classmates`|
+Your score of each faulty statement `s` is: Score<sub>s</sub> = (25% / N) * (`your ranking` - `default ranking`) / (`default ranking` - `best ranking among class`), where `default ranking` is the ranking given by the provided test suite.
 
-If we use `NT` to represent the average number of manually-written tests that a student adds to each test suite, 
-your total grade would be: Grade = ΣScore<sub>s</sub> * |`your NT` - `largest NT among classmates`| / |`smallest NT among classmates` - `largest NT among classmates`|
+Suppose `NT` represents the average number of manually-written tests that you have added to each of the given six test suite. 
+The total grade is given by ΣScore<sub>s</sub> *  (`largest NT among classmates` - `your NT`) / (`largest NT among classmates` - `smallest NT among classmates`)
 
 **NOTE** We will run your refined test suites using our fault localization tool with `Ochiai` ranking function. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
