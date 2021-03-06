@@ -20,7 +20,7 @@ The objectives of this assignment are three-fold.
    The newly constructed test cases should help improve test coverage for effective fault detection.
 2. You will implement a fault localization tool on top of Soot. 
    Your tool should be able to locate our injected faults and eventually fix them.
-3. You will refine the test suite to improve the ranking of fault localization.
+3. You will refine the test suite to improve the ranking of fault localization, understanding the limitations of automatically generated tests and the noises they may induce in the fault localization.
 
 ## Assignment Material
 
@@ -31,8 +31,9 @@ The class contains injected faults.
 
 ### Fault-Revealing Tests
 
-We provide three test suites, which contains failing tests revealing the faults in the CUT.
-The fault-revealing test suites can be found in `./src/test/fault-revealing[0-2]`.
+We provide six test suites, which contains failing tests revealing the faults in the CUT.
+The fault-revealing test suites can be found in `./src/test/fault-revealing-randoop[0-2]` and `./src/test/fault-revealing-evosuite[0-2]`.
+Three of them are generated using `Randoop` and the other three are generated using `Evosuite`. 
 
 ### Environment
 
@@ -77,14 +78,14 @@ The submission should also include a **readme file** that records the commands (
 
 In this task, you need to design and implement an effective fault localization algorithm by yourself.
 
-To help you with this task, we provide you with three test suites, located in `./src/test/fault-revealing[0-2]`.
+To help you with this task, we provide you with six test suites, located in `./src/test/fault-revealing-randoop[0-2]` and `./src/test/fault-revealing-evosuite[0-2]`.
 The program will fail on some tests of these suites. 
 Note that if it is impossible to locate faults with no failing tests. 
 You need to use these test suites for fault localization.
 
 #### Requirements
 - Instrument CUT with soot to collect necessary information during the running of tests.
-- Run the **three fault-revealing test suites** we provide.
+- Run the **six fault-revealing test suites** we provide.
 - Implement the classic fault localization algorithm **Ochiai** to compute the fault likelihood of each statement and generate a report for fault localization.
 
 #### Notes
@@ -92,16 +93,17 @@ You need to use these test suites for fault localization.
 
 Based on the report, you can check the source code and locate the faults. 
 There are multiple bugs injected in the subject program and each of them is in single line. 
-You need to locate and fix as many as bugs as you can.
+It is possible that some test suite cannot reveal all injected faults, but each fault is revealed by at least one test suite. 
+You need to locate and fix them as many as bugs as you can.
 
 #### Submissions
 
 1. The source code of your program. 
    You can re-use your code in assignment 1. 
    Scripts to run your program and readme are required.
-2. The spectrum reports of potential faulty statements running against **each** of the 3 test suits provided by us. 
-   In total, you need to submit 3 reports. 
-   Please name each of them in the format `spectrum_fl_ochiai[0-2].csv`.
+2. The spectrum reports of potential faulty statements running against **each** of the six test suits provided by us. 
+   In total, you need to submit 6 reports. 
+   Please name each of them in the format `spectrum_fl_ochiai_randoop[0-2].csv` and `spectrum_fl_ochiai_evosuite[0-2].csv`.
    Each spectrum report should in `csv` format and each line is in the format of "method signature,statement,suspicious score,ranking".
    The report should be sorted according the descending order of suspicious scores.
    If multiple statements have the same scores, please sort them according to the alphabetical order of method signature and statement.
@@ -123,24 +125,25 @@ You need to locate and fix as many as bugs as you can.
 ### Task 3: Test Suite Refinement (25%).
 
 You may find that the highly suspicious faulty statements reported by your program are not real faults. 
-In such circumstances, you may consider to refine the test suite (e.g., by selecting tests from provided suites or manually write new ones).
+In such circumstances, you may consider to refine the test suite by adding manually-written new ones.
 
 #### Requirements
-- Refine the test suite to improve the fault-localization results in Task 2.
+- Refine each of the six test suite to improve the fault-localization results in Task 2 by adding new tests. 
+- You are not allowed to delete exisint tests or duplicate your manually-written tests.
+- `Ochiai` algorithm should be used in the fault localizatoin. 
 
 #### Submissions
 
-1. The one refined test suite (in java file).
-   Put them in `./src/test/refined` folder.
-2. The spectrum reports of potential faulty statements running against the refined test suite. 
-   In total, you need to submit one report. Please name each of them in the format 
-   `spectrum_fl_ochiai_refined.csv`.
-3. A short report explaining your strategy to select or design test cases and compare the results before and after refinement.
+1. The six refined test suite (in java file).
+   Put them in `./src/test/refined-[randoop|evosuite][0-2]` folder.
+2. The spectrum reports of potential faulty statements running against the refined test suites. 
+   In total, you need to submit six reports. Please name each of them in the format 
+   `spectrum_fl_ochiai_refined_[randoop|evosuite][0-2].csv`.
+3. A short report explaining your strategy to design test cases and compare the results before and after refinement.
 
 #### Grading Scheme:
-
 *Effectiveness of test cases* (25%). 
-For each of the N faulty statements seeded, your score will depend on the ranking of the faulty statement (better ranking, better score):
+For each of the N faulty statements seeded, your score will depend on the average ranking of the faulty statement using the six refined test suites:
 
 1. If it is ranked highest, your score = (25 / N) * 100%
 2. Else if it is ranked in the top 5 faulty statements, your score = (25 / N) * 90%
@@ -149,7 +152,7 @@ For each of the N faulty statements seeded, your score will depend on the rankin
 5. Else if it is ranked in the top 50 faulty statements, your score = (25 / N) * 40%
 6. Else, your score = (25 / N) * 30%
 
-**NOTE** We will run your refined test suite using our fault localization tool. 
+**NOTE** We will run your refined test suites using our fault localization tool. 
 So your score on task 2 will not be affected by the correctness of your implementation. 
 
 ### Bonus Task (15%)
@@ -162,8 +165,8 @@ You are encouraged to implement them as well.
 
 1. The source code of your implementation.
 2. The spectrum reports of potential faulty statements running against the fault-revealing test suits provided by us. 
-   Since there are 3 algorithms, in total, you are required to submit 9 reports (3 tests * 3 algorithms). 
-   Please rename each of them using the format `spectrum_fl_[algorithm-name][0-2].csv`
+   Since there are 3 algorithms, in total, you are required to submit 9 reports (6 test suites * 3 algorithms). 
+   Please rename each of them using the format `spectrum_fl_[algorithm-name]_[randoop|evosuite][0-2].csv`
 
 #### Grading Scheme: 
 *Correctness of each algorithm* (15%): We will check your implementation, and the report 
@@ -183,8 +186,8 @@ The recommended folder structure is:
 3. A `README` explaining how to run your code. 
    Put your running scripts (if you need) under `${PROJECT_ROOT}/scripts`
 4. Put your screenshot into `${PROJECT_ROOT}/screenshots`
-5. Put the test suites generated by you into `${PROJECT_ROOT}/src/test/evosuite[0-4]`, and the test suite refined by you into `${PROJECT_ROOT}/src/test/refined`.
-6. Put your fault-localization report into the folder that contains the corresponding test suite, e.g., `spectrum_fl_ochiai0.csv` in `./src/test/fault-revealing0`.
+5. Put the test suites generated by you into `${PROJECT_ROOT}/src/test/evosuite[0-4]`, and the test suite refined by you into `${PROJECT_ROOT}/src/test/refined-[randoop|evosuite][0-2]`.
+6. Put your fault-localization report into the folder that contains the corresponding test suite, e.g., `spectrum_fl_ochiai_randoop0.csv` in `./src/test/fault-revealing-randoop0`.
 7. Put the reports of the faults found and fixed by you in `${PROJECT_ROOT}/faults`.
-8. Put the explanation of your test case refinement strategy in `${PROJECT_ROOT}/src/test/refined`.
+8. Put the explanation of your test case refinement strategy in `${PROJECT_ROOT}/src/test/refined-[randoop|evosuite][0-2]`.
 
