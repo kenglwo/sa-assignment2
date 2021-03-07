@@ -167,7 +167,7 @@ You are encouraged to implement them as well.
 
 1. The source code of your implementation.
 2. The spectrum reports of potential faulty statements running against the fault-revealing test suits provided by us. 
-   Since there are 3 algorithms, in total, you are required to submit 9 reports (6 test suites * 3 algorithms). 
+   Since there are 3 algorithms, in total, you are required to submit 18 reports (6 test suites * 3 algorithms). 
    Please rename each of them using the format `spectrum_fl_[algorithm-name]_[randoop|evosuite][0-2].csv`
 
 #### Grading Scheme: 
