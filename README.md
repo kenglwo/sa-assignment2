@@ -71,8 +71,8 @@ The submission should also include a **readme file** that records the commands (
 #### Grading Scheme:
 
 1. *Test suites and readme files* (5%): Each test suite accounts for `1%` if it can be successfully executed.
-2. *Line coverage* (10%): Score = (statement coverage of your test suite / highest line coverage achieved by your classmates) * 10%
-3. *Branch coverage* (10%): Score = (branch coverage of your test suite / highest branch coverage achieved by your classmates) * 10%
+2. *Line coverage* (10%): Score = (average line coverage of your test suites / highest average line coverage achieved by your classmates) * 10%
+3. *Branch coverage* (10%): Score = (average branch coverage of your test suites / highest average branch coverage achieved by your classmates) * 10%
 
 ### Task 2: Fault Localization based on Soot (50%).
 
