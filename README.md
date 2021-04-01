@@ -193,3 +193,5 @@ The recommended folder structure is:
 7. Put the reports of the faults found and fixed by you in `${PROJECT_ROOT}/faults`.
 8. Put the explanation of your test case refinement strategy in `${PROJECT_ROOT}/src/test/refined-[randoop|evosuite][0-2]`.
 
+#   s a - a s s i g n m e n t 2  
+ 
