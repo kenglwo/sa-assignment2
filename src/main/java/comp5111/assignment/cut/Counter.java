@@ -18,6 +18,8 @@ public class Counter {
     public static double[] scoreArray = new double[1930];
     public static double[] rankArray = new double[1930];
 
+    public static boolean ifTestFailed = false;
+
     public static void addStaticInvocation(int n) {
         numStaticInvocations += n;
     }
@@ -97,6 +99,10 @@ public class Counter {
 
     public static List<String> getStatementList(){
         return statementList;
+    }
+
+    public static void chnageIfTestFailed(boolean flag){
+        ifTestFailed = flag;
     }
 
 }

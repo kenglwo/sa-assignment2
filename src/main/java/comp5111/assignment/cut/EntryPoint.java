@@ -57,14 +57,15 @@ public class EntryPoint {
         System.out.println("numTest: " + numTest);
 				System.out.println("numTestFailed: " + numTestFailed);
 
-        List<String> methodSignatureList = Counter.getMethodSignatureList();
-        List<String> statementList = Counter.getStatementList();
-        System.out.println(Arrays.toString(methodSignatureList.toArray()));
-        System.out.println(Arrays.toString(statementList.toArray()));
+        List<String> methodSignatureList = new ArrayList<>();
+        List<String> statementList = new ArrayList<>();
+        // System.out.println(Arrays.toString(methodSignatureList.toArray()));
+        // System.out.println(Arrays.toString(statementList.toArray()));
 
         int[] passed = Counter.getPassedLineArray();
         int[] failed = Counter.getFailedLineArray();
         // System.out.println(Arrays.toString(passed));
+        // System.out.println("########################");
         // System.out.println(Arrays.toString(failed));
 
         for(int i=0; i<passed.length; i++){
@@ -79,22 +80,30 @@ public class EntryPoint {
           }
         }
 
-        List<Integer> ranks = new ArrayList<Integer>();
+        ArrayList<Integer> ranks = new ArrayList<Integer>();
         List<Integer> scoreOfLineNumber = new ArrayList<Integer>();
         List<Double> scoreValues = new ArrayList<Double>();
         List<Double> sortedScoreValues = new ArrayList<Double>();
 
+        // System.out.println(Arrays.toString(Counter.scoreArray));
         for(int i=0; i<Counter.scoreArray.length; i++){
           if(Counter.scoreArray[i] > 0){
-            scoreOfLineNumber.add(i);
+            scoreOfLineNumber.add(i+1);
             scoreValues.add(Counter.scoreArray[i]);
+            methodSignatureList.add(Counter.getMethodSignatureList().get(i));
+            statementList.add(Counter.getStatementList().get(i));
           }
         }
+        // System.out.println("methodSignatureList");
+        // System.out.println(Arrays.toString(methodSignatureList.toArray()));
+        // System.out.println("statementList");
+        // System.out.println(Arrays.toString(statementList.toArray()));
 
 
         // sortedScoreValues = scoreValues.clone();
         sortedScoreValues = new ArrayList<Double>(scoreValues);
         Collections.sort(sortedScoreValues);
+        // System.out.println(Arrays.toString(sortedScoreValues.toArray()));
 
         // System.out.println("score values");
         // System.out.println(Arrays.toString(scoreValues.toArray()));
@@ -111,7 +120,7 @@ public class EntryPoint {
             } else if(score == sortedScoreValues.get(j)){
               s += 1;
             } else {
-              n = sortedScoreValues.size() - j + 1;
+              n = sortedScoreValues.size() - j;
               break;
             }
           }
@@ -123,42 +132,79 @@ public class EntryPoint {
 
         // System.out.println(Arrays.toString(scoreOfLineNumber.toArray()));
         // System.out.println("################################");
+
+
+        // System.out.println("methodSignatureList");
+        // System.out.println(Arrays.toString(methodSignatureList.toArray()));
+        // System.out.println("statementList");
+        // System.out.println(Arrays.toString(statementList.toArray()));
+        // System.out.println("score values");
+        // System.out.println(Arrays.toString(scoreValues.toArray()));
+        // System.out.println("ranks");
         // System.out.println(Arrays.toString(ranks.toArray()));
 
-        Map<Integer, Integer> lineScore = new HashMap<>();
-        for (int i=0; i < scoreOfLineNumber.size(); i++){
-          lineScore.put(scoreOfLineNumber.get(i), ranks.get(i));
+        // get the index array of ranks
+        ArrayList<Integer> sortedRanks = (ArrayList<Integer>) ranks.clone();
+        List<Integer> indexList = new ArrayList<Integer>();
+        Collections.sort(sortedRanks);
+        for(int i=0; i<ranks.size(); i++){
+          int score = sortedRanks.get(i);
+          int index = ranks.indexOf(score);
+          if(i > 0 && index == indexList.get(i-1)){
+            index += 1;
+          }
+          indexList.add(index);
         }
 
-        List<Entry<Integer, Integer>> list = new ArrayList<>(lineScore.entrySet());
-        list.sort(Entry.comparingByValue());
+        // for(int i=0; i<methodSignatureList.size(); i++){
+        String output = "";
+        for(int i=0; i<indexList.size(); i++){
+          int index = indexList.get(i);
+          String out = "";
+          out += methodSignatureList.get(index) + "\t";
+          out += statementList.get(index) + "\t";
+          out += scoreValues.get(index) + "\t";
+          out += ranks.get(index) + "\t";
+          out += "\n";
+          output += out;
+          System.out.println(out);
+          }
+
+        // sort
+        // Map<Integer, Integer> lineScore = new HashMap<>();
+        // for (int i=0; i < scoreOfLineNumber.size(); i++){
+        //   lineScore.put(scoreOfLineNumber.get(i), ranks.get(i));
+        // }
+
+        // List<Entry<Integer, Integer>> list = new ArrayList<>(lineScore.entrySet());
+        // list.sort(Entry.comparingByValue());
         // list.forEach(System.out::println);
 
-        String output = "";
-        for(int i=0; i<list.size(); i++){
-          System.out.println(list.get(i));
-          output += list.get(i) + "\n";
-        }
+        // String output = "";
+        // for(int i=0; i<list.size(); i++){
+        //   System.out.println(list.get(i));
+        //   output += list.get(i) + "\n";
+        // }
 
         String fileName = "";
         switch(testIndex){
           case 0:
-            fileName = "spectrum_fl_ochiai_randoop0.csv";
+            fileName = "spectrum_fl_ochiai_randoop0.tsv";
             break;
           case 1:
-            fileName = "spectrum_fl_ochiai_randoop1.csv";
+            fileName = "spectrum_fl_ochiai_randoop1.tsv";
             break;
           case 2:
-            fileName = "spectrum_fl_ochiai_randoop2.csv";
+            fileName = "spectrum_fl_ochiai_randoop2.tsv";
             break;
           case 3:
-            fileName = "spectrum_fl_ochiai_evosuite0.csv";
+            fileName = "spectrum_fl_ochiai_evosuite0.tsv";
             break;
           case 4:
-            fileName = "spectrum_fl_ochiai_evosuite1.csv";
+            fileName = "spectrum_fl_ochiai_evosuite1.tsv";
             break;
           case 5:
-            fileName = "spectrum_fl_ochiai_evosuite2.csv";
+            fileName = "spectrum_fl_ochiai_evosuite2.tsv";
             break;
         }
         try {
@@ -203,7 +249,7 @@ public class EntryPoint {
 
         // String targetPathTest = "./target/classes/randoop0";
         // String targetPathTest = "./target/classes/randoop0:./target/classes/randoop1:./target/classes/randoop2:./target/classes/randoop3:./target/classes/randoop4";
-        String targetPathTest = ".\\src\\test\\fault-revealing-randoop0;.\\src\\test\\fault-revealing-randoop1;.\\src\\test\\fault-revealing-randoop1;src\\test\\fault-revealing-randoop2;";
+        String targetPathTest = ".\\src\\test\\fault-revealing-randoop0;.\\src\\test\\fault-revealing-randoop1;.\\src\\test\\fault-revealing-randoop2;.\\src\\test\\fault-revealing-evosuite0;.\\src\\test\\fault-revealing-evosuite1;.\\src\\test\\fault-revealing-evosuite2;";
 
         String classPathSeparator = ":";
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
@@ -249,13 +295,23 @@ public class EntryPoint {
               }
 
               public void testFailure(Failure failure) {
-                Counter.addNumTestFailed(1);
-                Counter.addToLineArraysFailed();
+                // Counter.addNumTestFailed(1);
+                // Counter.addToLineArraysFailed();
+                // set flag
+                Counter.chnageIfTestFailed(true);
               }
 
               public void testFinished(Description description) {
-                Counter.addNumTest(1);
-                Counter.addToLineArraysPassed();
+                // check flag
+                if (Counter.ifTestFailed == true){
+                  Counter.addNumTestFailed(1);
+                  Counter.addToLineArraysFailed();
+                } else {
+                  Counter.addNumTest(1);
+                  Counter.addToLineArraysPassed();
+                  // System.out.println(description.getAnnotations());
+                }
+                Counter.chnageIfTestFailed(false);
               }
 
               public void testIgnored(Description description) {

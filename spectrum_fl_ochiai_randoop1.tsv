@@ -1,0 +1,48 @@
+<comp5111.assignment.cut.ToolBox$CharSequenceTools: int indexOf(java.lang.CharSequence,int,int)>	if $stack8 == 0 goto sz = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.91	1	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(289)	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if $stack1 != 0 goto $stack2 = 0")	0.83	7	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(175)	0.77	19	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	return l0#2	0.77	19	
+<comp5111.assignment.cut.ToolBox$StringTools: int compareIgnoreCase(java.lang.String,java.lang.String,boolean)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(1108)	0.57	26	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(boolean[])>")	0.55	27	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(1171)	0.29	28	
+<comp5111.assignment.cut.ToolBox$CharSequenceTools: int lastIndexOf(java.lang.CharSequence,java.lang.CharSequence,int)>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("$stack50 = (java.lang.String) searchChar")	0.24	29	
+<comp5111.assignment.cut.ToolBox$CharSequenceTools: int lastIndexOf(java.lang.CharSequence,java.lang.CharSequence,int)>	$stack82 = (java.lang.String) l1	0.24	29	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack24 = staticinvoke <java.lang.Character: boolean isHighSurrogate(char)>(l6)	0.2	31	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack18 = staticinvoke <java.lang.Character: boolean isHighSurrogate(char)>(ch)	0.18	32	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack18 = l1[l8]	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>")	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack18 = l1[l8]	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>")	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack18 = l1[l8]	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>")	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	$stack18 = l1[l8]	0.09	36	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>")	0.09	36	
+<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>	if $stack6 != 95 goto staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>")	0.08	42	
+<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>")	0.08	42	
+<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>	if $stack6 != 95 goto staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>")	0.08	42	
+<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>")	0.07	44	
+<comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale toLocale(java.lang.String)>	staticinvoke <comp5111.assignment.cut.Counter: void addStatement(java.lang.String)>("if ch0 != 95 goto $stack9 = staticinvoke <comp5111.assignment.cut.ToolBox$LocaleTools: java.util.Locale parseLocale(java.lang.String)>(str)")	0.07	44	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean isMixedCase(java.lang.CharSequence)>	return 0	0.06	46	
+<comp5111.assignment.cut.ToolBox$StringTools: int compareIgnoreCase(java.lang.String,java.lang.String,boolean)>	staticinvoke <comp5111.assignment.cut.Counter: void addToLineNumberWorkArray(int)>(1108)	0.57	26	
+<comp5111.assignment.cut.ToolBox$RegExTools: java.lang.String replaceAll(java.lang.String,java.lang.String,java.lang.String)>	staticinvoke <comp5111.assignment.cut.Counter: void addMethodSignature(java.lang.String)>("<comp5111.assignment.cut.ToolBox$RegExTools: java.lang.String replaceAll(java.lang.String,java.lang.String,java.lang.String)>")	0.04	48	
