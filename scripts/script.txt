@@ -1,0 +1,27 @@
+ javac -g -d .\raw-classes\ .\src\main\java\comp5111\assignment\cut\ToolBox.java
+ 
+
+ # instrument with Soot
+ javac -d target\classes -g -classpath .;.\lib\*;src\main\java src\main\java\comp5111\assignment\cut\Counter.java
+ javac -d target\classes -g -classpath .;.\lib\*;src\main\java src\main\java\comp5111\assignment\cut\Instrumenter.java
+ javac -d target\classes -g -classpath .;.\lib\*;src\main\java src\main\java\comp5111\assignment\cut\EntryPoint.java
+ javac -d target\classes -g -classpath .;.\lib\*;src\main\java src\main\java\comp5111\assignment\Assignment2.java
+
+# compile test suites
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop0\comp5111\assignment\cut\Regression_15_Test0.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
+
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revealing-evosuite0 src\test\fault-revealing-evosuite0\comp5111\assignment\cut\ToolBox_FaultRevealing0_ESTest.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revealing-evosuite1 src\test\fault-revealing-evosuite1\comp5111\assignment\cut\ToolBox_FaultRevealing1_ESTest.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revealing-evosuite2 src\test\fault-revealing-evosuite2\comp5111\assignment\cut\ToolBox_FaultRevealing2_ESTest.java
+
+
+
+# run the main method
+ java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 0 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+ java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 1 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+ java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 2 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+ java -classpath .;.\lib\evosuite0.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 3 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+ java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 4 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+ java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 5 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools

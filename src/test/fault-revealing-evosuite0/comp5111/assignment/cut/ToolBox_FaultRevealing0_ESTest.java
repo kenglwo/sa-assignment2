@@ -17,7 +17,8 @@ import java.util.regex.Pattern;
 
 import org.evosuite.runtime.ViolatedAssumptionAnswer;
 
-public class ToolBox_FaultRevealing0_ESTest extends ToolBox_FaultRevealing0_ESTest_scaffolding {
+// public class ToolBox_FaultRevealing0_ESTest extends ToolBox_FaultRevealing0_ESTest_scaffolding {
+public class ToolBox_FaultRevealing0_ESTest {
 
   @Test(timeout = 4000)
   public void test000()  throws Throwable  {

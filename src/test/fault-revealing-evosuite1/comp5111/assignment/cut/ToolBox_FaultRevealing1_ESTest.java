@@ -19,7 +19,8 @@ import org.evosuite.runtime.EvoRunnerParameters;
 import org.evosuite.runtime.ViolatedAssumptionAnswer;
 import org.junit.runner.RunWith;
 
-public class ToolBox_FaultRevealing1_ESTest extends ToolBox_FaultRevealing1_ESTest_scaffolding {
+// public class ToolBox_FaultRevealing1_ESTest extends ToolBox_FaultRevealing1_ESTest_scaffolding {
+public class ToolBox_FaultRevealing1_ESTest {
 
   @Test(timeout = 4000)
   public void test000()  throws Throwable  {

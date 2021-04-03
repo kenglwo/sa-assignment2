@@ -1,0 +1,1928 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ToolBox.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">randoop3 (Mar 1, 2021 5:42:46 PM)</a> &gt; <a href="../../index.html" class="el_group">COMP5111-assignment-Student-Version</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">comp5111.assignment.cut</a> &gt; <span class="el_source">ToolBox.java</span></div><h1>ToolBox.java</h1><pre class="source lang-java linenums">package comp5111.assignment.cut;
+
+import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Supplier;
+import java.util.regex.Pattern;
+
+import static comp5111.assignment.cut.ToolBox.StringTools.EMPTY;
+
+<span class="fc" id="L11">public class ToolBox {</span>
+    /**
+     * &lt;p&gt;Operations to assist when working with a {@link Locale}.&lt;/p&gt;
+     *
+     * &lt;p&gt;This class tries to handle {@code null} input gracefully.
+     * An exception will not be thrown for a {@code null} input.
+     * Each method documents its behavior in more detail.&lt;/p&gt;
+     */
+<span class="fc" id="L19">    public static class LocaleTools {</span>
+        /**
+         * Checks whether the given String is a ISO 3166 alpha-2 country code.
+         *
+         * @param str the String to check
+         * @return true, is the given String is a ISO 3166 compliant country code.
+         */
+        private static boolean isISO3166CountryCode(final String str) {
+<span class="nc bnc" id="L27" title="All 4 branches missed.">            return StringTools.isAllUpperCase(str) &amp;&amp; str.length() == 2;</span>
+        }
+
+        /**
+         * Checks whether the given String is a ISO 639 compliant language code.
+         *
+         * @param str the String to check.
+         * @return true, if the given String is a ISO 639 compliant language code.
+         */
+        private static boolean isISO639LanguageCode(final String str) {
+<span class="pc bpc" id="L37" title="5 of 6 branches missed.">            return StringTools.isAllLowerCase(str) &amp;&amp; (str.length() == 2 || str.length() == 3);</span>
+        }
+
+        /**
+         * Checks whether the given String is a UN M.49 numeric area code.
+         *
+         * @param str the String to check
+         * @return true, is the given String is a UN M.49 numeric area code.
+         */
+        private static boolean isNumericAreaCode(final String str) {
+<span class="nc bnc" id="L47" title="All 4 branches missed.">            return StringTools.isNumeric(str) &amp;&amp; str.length() == 3;</span>
+        }
+
+        /**
+         * Tries to parse a locale from the given String.
+         *
+         * @param str the String to parse a locale from.
+         * @return a Locale instance parsed from the given String.
+         * @throws IllegalArgumentException if the given String can not be parsed.
+         */
+        private static Locale parseLocale(final String str) {
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">            if (isISO639LanguageCode(str)) {</span>
+<span class="nc" id="L59">                return new Locale(str);</span>
+            }
+
+<span class="fc" id="L62">            final String[] segments = str.split(&quot;_&quot;, -1);</span>
+<span class="fc" id="L63">            final String language = segments[0];</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            if (segments.length == 2) {</span>
+<span class="nc" id="L65">                final String country = segments[1];</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">                if (isISO639LanguageCode(language) &amp;&amp; isISO3166CountryCode(country) ||</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                    isNumericAreaCode(country)) {</span>
+<span class="nc" id="L68">                    return new Locale(language, country);</span>
+                }
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            } else if (segments.length == 3) {</span>
+<span class="nc" id="L71">                final String country = segments[1];</span>
+<span class="nc" id="L72">                final String variant = segments[2];</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if (isISO639LanguageCode(language) &amp;&amp;</span>
+<span class="nc bnc" id="L74" title="All 6 branches missed.">                    (country.isEmpty() || isISO3166CountryCode(country) || isNumericAreaCode(country)) &amp;&amp;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    !variant.isEmpty()) {</span>
+<span class="nc" id="L76">                    return new Locale(language, country, variant);</span>
+                }
+            }
+<span class="fc" id="L79">            throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+        }
+
+        /**
+         * &lt;p&gt;Converts a String to a Locale.&lt;/p&gt;
+         *
+         * &lt;p&gt;This method takes the string format of a locale and creates the
+         * locale object from it.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         *   LocaleUtils.toLocale(&quot;&quot;)           = new Locale(&quot;&quot;, &quot;&quot;)
+         *   LocaleUtils.toLocale(&quot;en&quot;)         = new Locale(&quot;en&quot;, &quot;&quot;)
+         *   LocaleUtils.toLocale(&quot;en_GB&quot;)      = new Locale(&quot;en&quot;, &quot;GB&quot;)
+         *   LocaleUtils.toLocale(&quot;en_001&quot;)     = new Locale(&quot;en&quot;, &quot;001&quot;)
+         *   LocaleUtils.toLocale(&quot;en_GB_xxx&quot;)  = new Locale(&quot;en&quot;, &quot;GB&quot;, &quot;xxx&quot;)   (#)
+         * &lt;/pre&gt;
+         *
+         * &lt;p&gt;(#) The behavior of the JDK variant constructor changed between JDK1.3 and JDK1.4.
+         * In JDK1.3, the constructor upper cases the variant, in JDK1.4, it doesn't.
+         * Thus, the result from getVariant() may vary depending on your JDK.&lt;/p&gt;
+         *
+         * &lt;p&gt;This method validates the input strictly.
+         * The language code must be lowercase.
+         * The country code must be uppercase.
+         * The separator must be an underscore.
+         * The length must be correct.
+         * &lt;/p&gt;
+         *
+         * @param str the locale String to convert, null returns null
+         * @return a Locale, null if null input
+         * @throws IllegalArgumentException if the string is an invalid format
+         * @see Locale#forLanguageTag(String)
+         */
+        public static Locale toLocale(final String str) {
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (str == null) {</span>
+<span class="nc" id="L114">                return null;</span>
+            }
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (str.isEmpty()) { // LANG-941 - JDK 8 introduced an empty locale where all fields are blank</span>
+<span class="fc" id="L117">                return new Locale(EMPTY, EMPTY);</span>
+            }
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (str.contains(&quot;#&quot;)) { // LANG-879 - Cannot handle Java 7 script &amp; extensions</span>
+<span class="nc" id="L120">                throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+            }
+<span class="fc" id="L122">            final int len = str.length();</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">            if (len &lt; 2) {</span>
+<span class="fc" id="L124">                throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+            }
+<span class="nc" id="L126">            final char ch0 = str.charAt(0);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (ch0 == '_') {</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                if (len &lt; 3) {</span>
+<span class="nc" id="L129">                    throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+                }
+<span class="nc" id="L131">                final char ch1 = str.charAt(1);</span>
+<span class="nc" id="L132">                final char ch2 = str.charAt(2);</span>
+<span class="nc bnc" id="L133" title="All 4 branches missed.">                if (!Character.isUpperCase(ch1) || !Character.isUpperCase(ch2)) {</span>
+<span class="nc" id="L134">                    throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+                }
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                if (len == 3) {</span>
+<span class="nc" id="L137">                    return new Locale(EMPTY, str.substring(1, 3));</span>
+                }
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                if (len &lt; 5) {</span>
+<span class="nc" id="L140">                    throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+                }
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                if (str.charAt(3) != '_') {</span>
+<span class="nc" id="L143">                    throw new IllegalArgumentException(&quot;Invalid locale format: &quot; + str);</span>
+                }
+<span class="nc" id="L145">                return new Locale(EMPTY, str.substring(1, 3), str.substring(4));</span>
+            }
+
+<span class="nc" id="L148">            return parseLocale(str);</span>
+        }
+
+    }
+
+<span class="fc" id="L153">    public static class ArrayTools {</span>
+        /**
+         * An empty immutable {@code char} array.
+         */
+<span class="fc" id="L157">        public static final char[] EMPTY_CHAR_ARRAY = new char[0];</span>
+
+
+        /**
+         * The index value when an element is not found in a list or array: {@code -1}.
+         * This value is returned by methods in this class and can also be used in comparisons with values returned by
+         * various method from {@link List}.
+         */
+<span class="fc" id="L165">        public static final int INDEX_NOT_FOUND = -1;</span>
+
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive booleans is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final boolean[] array) {
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive bytes is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final byte[] array) {
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        // IndexOf search
+        // ----------------------------------------------------------------------
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive chars is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final char[] array) {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive doubles is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final double[] array) {
+<span class="fc bfc" id="L208" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive floats is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final float[] array) {
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive ints is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final int[] array) {
+<span class="fc bfc" id="L228" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive longs is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final long[] array) {
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        // ----------------------------------------------------------------------
+
+        /**
+         * &lt;p&gt;Checks if an array of Objects is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final Object[] array) {
+<span class="fc bfc" id="L251" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if an array of primitive shorts is empty or {@code null}.
+         *
+         * @param array the array to test
+         * @return {@code true} if the array is empty or {@code null}
+         */
+        public static boolean isEmpty(final short[] array) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">            return getLength(array) == 0;</span>
+        }
+
+        //-----------------------------------------------------------------------
+
+        /**
+         * &lt;p&gt;Returns the length of the specified array.
+         * This method can deal with {@code Object} arrays and with primitive arrays.
+         *
+         * &lt;p&gt;If the input array is {@code null}, {@code 0} is returned.
+         *
+         * &lt;pre&gt;
+         * ArrayUtils.getLength(null)            = 0
+         * ArrayUtils.getLength([])              = 0
+         * ArrayUtils.getLength([null])          = 1
+         * ArrayUtils.getLength([true, false])   = 2
+         * ArrayUtils.getLength([1, 2, 3])       = 3
+         * ArrayUtils.getLength([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]) = 3
+         * &lt;/pre&gt;
+         *
+         * @param array the array to retrieve the length from, may be null
+         * @return The length of the array, or {@code 0} if the array is {@code null}
+         * @throws IllegalArgumentException if the object argument is not an array.
+         */
+        public static int getLength(final Object array) {
+<span class="fc bfc" id="L286" title="All 2 branches covered.">            if (array == null) {</span>
+<span class="fc" id="L287">                return 0;</span>
+            }
+<span class="fc" id="L289">            return Array.getLength(array);</span>
+        }
+    }
+
+<span class="fc" id="L293">    public static class CharSequenceTools {</span>
+        static final int TO_STRING_LIMIT = 16;
+        //-----------------------------------------------------------------------
+        private static final int NOT_FOUND = -1;
+
+        /**
+         * Returns the index within {@code cs} of the first occurrence of the
+         * specified character, starting the search at the specified index.
+         * &lt;p&gt;
+         * If a character with value {@code searchChar} occurs in the
+         * character sequence represented by the {@code cs}
+         * object at an index no smaller than {@code start}, then
+         * the index of the first such occurrence is returned. For values
+         * of {@code searchChar} in the range from 0 to 0xFFFF (inclusive),
+         * this is the smallest value &lt;i&gt;k&lt;/i&gt; such that:
+         * &lt;blockquote&gt;&lt;pre&gt;
+         * (this.charAt(&lt;i&gt;k&lt;/i&gt;) == searchChar) &amp;amp;&amp;amp; (&lt;i&gt;k&lt;/i&gt; &amp;gt;= start)
+         * &lt;/pre&gt;&lt;/blockquote&gt;
+         * is true. For other values of {@code searchChar}, it is the
+         * smallest value &lt;i&gt;k&lt;/i&gt; such that:
+         * &lt;blockquote&gt;&lt;pre&gt;
+         * (this.codePointAt(&lt;i&gt;k&lt;/i&gt;) == searchChar) &amp;amp;&amp;amp; (&lt;i&gt;k&lt;/i&gt; &amp;gt;= start)
+         * &lt;/pre&gt;&lt;/blockquote&gt;
+         * is true. In either case, if no such character occurs inm {@code cs}
+         * at or after position {@code start}, then
+         * {@code -1} is returned.
+         *
+         * &lt;p&gt;
+         * There is no restriction on the value of {@code start}. If it
+         * is negative, it has the same effect as if it were zero: the entire
+         * {@code CharSequence} may be searched. If it is greater than
+         * the length of {@code cs}, it has the same effect as if it were
+         * equal to the length of {@code cs}: {@code -1} is returned.
+         *
+         * &lt;p&gt;All indices are specified in {@code char} values
+         * (Unicode code units).
+         *
+         * @param cs         the {@code CharSequence} to be processed, not null
+         * @param searchChar the char to be searched for
+         * @param start      the start index, negative starts at the string start
+         * @return the index where the search char was found, -1 if not found
+         */
+        static int indexOf(final CharSequence cs, final int searchChar, int start) {
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">            if (cs instanceof String) {</span>
+<span class="fc" id="L337">                return ((String) cs).indexOf(searchChar, start);</span>
+            }
+<span class="nc" id="L339">            final int sz = cs.length();</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">            if (start &lt; 0) {</span>
+<span class="nc" id="L341">                start = 0;</span>
+            }
+<span class="nc bnc" id="L343" title="All 2 branches missed.">            if (searchChar &lt; Character.MIN_SUPPLEMENTARY_CODE_POINT) {</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">                for (int i = start; i &lt; sz; i++) {</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">                    if (cs.charAt(i) == searchChar) {</span>
+<span class="nc" id="L346">                        return i;</span>
+                    }
+                }
+<span class="nc" id="L349">                return NOT_FOUND;</span>
+            }
+            //supplementary characters (LANG1300)
+<span class="nc bnc" id="L352" title="All 2 branches missed.">            if (searchChar &lt;= Character.MAX_CODE_POINT) {</span>
+<span class="nc" id="L353">                final char[] chars = Character.toChars(searchChar);</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">                for (int i = start; i &lt; sz - 1; i++) {</span>
+<span class="nc" id="L355">                    final char high = cs.charAt(i);</span>
+<span class="nc" id="L356">                    final char low = cs.charAt(i + 1);</span>
+<span class="nc bnc" id="L357" title="All 4 branches missed.">                    if (high == chars[0] &amp;&amp; low == chars[1]) {</span>
+<span class="nc" id="L358">                        return i;</span>
+                    }
+                }
+            }
+<span class="nc" id="L362">            return NOT_FOUND;</span>
+        }
+
+        /**
+         * Used by the indexOf(CharSequence methods) as a green implementation of indexOf.
+         *
+         * @param cs         the {@code CharSequence} to be processed
+         * @param searchChar the {@code CharSequence} to be searched for
+         * @param start      the start index
+         * @return the index where the search sequence was found
+         */
+        static int indexOf(final CharSequence cs, final CharSequence searchChar, final int start) {
+<span class="pc bpc" id="L374" title="1 of 2 branches missed.">            if (cs instanceof String) {</span>
+<span class="fc" id="L375">                return ((String) cs).indexOf(searchChar.toString(), start);</span>
+<span class="nc bnc" id="L376" title="All 2 branches missed.">            } else if (cs instanceof StringBuilder) {</span>
+<span class="nc" id="L377">                return ((StringBuilder) cs).indexOf(searchChar.toString(), start);</span>
+<span class="nc bnc" id="L378" title="All 2 branches missed.">            } else if (cs instanceof StringBuffer) {</span>
+<span class="nc" id="L379">                return ((StringBuffer) cs).indexOf(searchChar.toString(), start);</span>
+            }
+<span class="nc" id="L381">            return cs.toString().indexOf(searchChar.toString(), start);</span>
+        }
+
+        /**
+         * Converts the given CharSequence to a char[].
+         *
+         * @param source the {@code CharSequence} to be processed.
+         * @return the resulting char array, never null.
+         */
+        public static char[] toCharArray(final CharSequence source) {
+<span class="fc" id="L391">            final int len = StringTools.length(source);</span>
+<span class="fc bfc" id="L392" title="All 2 branches covered.">            if (len == 0) {</span>
+<span class="fc" id="L393">                return ArrayTools.EMPTY_CHAR_ARRAY;</span>
+            }
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">            if (source instanceof String) {</span>
+<span class="fc" id="L396">                return ((String) source).toCharArray();</span>
+            }
+<span class="nc" id="L398">            final char[] array = new char[len];</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">            for (int i = 0; i &lt; len; i++) {</span>
+<span class="nc" id="L400">                array[i] = source.charAt(i);</span>
+            }
+<span class="nc" id="L402">            return array;</span>
+        }
+
+        /**
+         * Green implementation of regionMatches.
+         *
+         * @param cs         the {@code CharSequence} to be processed
+         * @param ignoreCase whether or not to be case insensitive
+         * @param thisStart  the index to start on the {@code cs} CharSequence
+         * @param substring  the {@code CharSequence} to be looked for
+         * @param start      the index to start on the {@code substring} CharSequence
+         * @param length     character length of the region
+         * @return whether the region matched
+         */
+        static boolean regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart,
+                                     final CharSequence substring, final int start, final int length) {
+<span class="fc bfc" id="L418" title="All 4 branches covered.">            if (cs instanceof String &amp;&amp; substring instanceof String) {</span>
+<span class="fc" id="L419">                return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);</span>
+            }
+<span class="fc" id="L421">            int index1 = thisStart;</span>
+<span class="fc" id="L422">            int index2 = start;</span>
+<span class="fc" id="L423">            int tmpLen = length;</span>
+
+            // Extract these first so we detect NPEs the same as the java.lang.String version
+<span class="fc" id="L426">            final int srcLen = cs.length() - thisStart;</span>
+<span class="nc" id="L427">            final int otherLen = substring.length() - start;</span>
+
+            // Check for invalid parameters
+<span class="nc bnc" id="L430" title="All 6 branches missed.">            if (thisStart &lt; 0 || start &lt; 0 || length &lt; 0) {</span>
+<span class="nc" id="L431">                return false;</span>
+            }
+
+            // Check that the regions are long enough
+<span class="nc bnc" id="L435" title="All 4 branches missed.">            if (srcLen &lt; length || otherLen &lt; length) {</span>
+<span class="nc" id="L436">                return false;</span>
+            }
+
+<span class="nc bnc" id="L439" title="All 2 branches missed.">            while (tmpLen-- &gt; 0) {</span>
+<span class="nc" id="L440">                final char c1 = cs.charAt(index1++);</span>
+<span class="nc" id="L441">                final char c2 = substring.charAt(index2++);</span>
+
+<span class="nc bnc" id="L443" title="All 2 branches missed.">                if (c1 == c2) {</span>
+<span class="nc" id="L444">                    continue;</span>
+                }
+
+<span class="nc bnc" id="L447" title="All 2 branches missed.">                if (!ignoreCase) {</span>
+<span class="nc" id="L448">                    return false;</span>
+                }
+
+                // The real same check as in String.regionMatches():
+<span class="nc" id="L452">                final char u1 = Character.toUpperCase(c1);</span>
+<span class="nc" id="L453">                final char u2 = Character.toUpperCase(c2);</span>
+<span class="nc bnc" id="L454" title="All 4 branches missed.">                if (u1 != u2 &amp;&amp; Character.toLowerCase(u1) != Character.toLowerCase(u2)) {</span>
+<span class="nc" id="L455">                    return false;</span>
+                }
+            }
+
+<span class="nc" id="L459">            return true;</span>
+        }
+
+        /**
+         * Returns the index within {@code cs} of the last occurrence of
+         * the specified character, searching backward starting at the
+         * specified index. For values of {@code searchChar} in the range
+         * from 0 to 0xFFFF (inclusive), the index returned is the largest
+         * value &lt;i&gt;k&lt;/i&gt; such that:
+         * &lt;blockquote&gt;&lt;pre&gt;
+         * (this.charAt(&lt;i&gt;k&lt;/i&gt;) == searchChar) &amp;amp;&amp;amp; (&lt;i&gt;k&lt;/i&gt; &amp;lt;= start)
+         * &lt;/pre&gt;&lt;/blockquote&gt;
+         * is true. For other values of {@code searchChar}, it is the
+         * largest value &lt;i&gt;k&lt;/i&gt; such that:
+         * &lt;blockquote&gt;&lt;pre&gt;
+         * (this.codePointAt(&lt;i&gt;k&lt;/i&gt;) == searchChar) &amp;amp;&amp;amp; (&lt;i&gt;k&lt;/i&gt; &amp;lt;= start)
+         * &lt;/pre&gt;&lt;/blockquote&gt;
+         * is true. In either case, if no such character occurs in {@code cs}
+         * at or before position {@code start}, then {@code -1} is returned.
+         *
+         * &lt;p&gt;All indices are specified in {@code char} values
+         * (Unicode code units).
+         *
+         * @param cs         the {@code CharSequence} to be processed
+         * @param searchChar the char to be searched for
+         * @param start      the start index, negative returns -1, beyond length starts at end
+         * @return the index where the search char was found, -1 if not found
+         */
+        static int lastIndexOf(final CharSequence cs, final int searchChar, int start) {
+<span class="pc bpc" id="L488" title="1 of 2 branches missed.">            if (cs instanceof String) {</span>
+<span class="fc" id="L489">                return ((String) cs).lastIndexOf(searchChar, start);</span>
+            }
+<span class="nc" id="L491">            final int sz = cs.length();</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">            if (start &lt; 0) {</span>
+<span class="nc" id="L493">                return NOT_FOUND;</span>
+            }
+<span class="nc bnc" id="L495" title="All 2 branches missed.">            if (start &gt;= sz) {</span>
+<span class="nc" id="L496">                start = sz - 1;</span>
+            }
+<span class="nc bnc" id="L498" title="All 2 branches missed.">            if (searchChar &lt; Character.MIN_SUPPLEMENTARY_CODE_POINT) {</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">                for (int i = start; i &gt;= 0; --i) {</span>
+<span class="nc bnc" id="L500" title="All 2 branches missed.">                    if (cs.charAt(i) == searchChar) {</span>
+<span class="nc" id="L501">                        return i;</span>
+                    }
+                }
+<span class="nc" id="L504">                return NOT_FOUND;</span>
+            }
+            //supplementary characters (LANG1300)
+            //NOTE - we must do a forward traversal for this to avoid duplicating code points
+<span class="nc bnc" id="L508" title="All 2 branches missed.">            if (searchChar &lt;= Character.MAX_CODE_POINT) {</span>
+<span class="nc" id="L509">                final char[] chars = Character.toChars(searchChar);</span>
+                //make sure it's not the last index
+<span class="nc bnc" id="L511" title="All 2 branches missed.">                if (start == sz - 1) {</span>
+<span class="nc" id="L512">                    return NOT_FOUND;</span>
+                }
+<span class="nc bnc" id="L514" title="All 2 branches missed.">                for (int i = start; i &gt;= 0; i--) {</span>
+<span class="nc" id="L515">                    final char high = cs.charAt(i);</span>
+<span class="nc" id="L516">                    final char low = cs.charAt(i + 1);</span>
+<span class="nc bnc" id="L517" title="All 4 branches missed.">                    if (chars[0] == high &amp;&amp; chars[1] == low) {</span>
+<span class="nc" id="L518">                        return i;</span>
+                    }
+                }
+            }
+<span class="nc" id="L522">            return NOT_FOUND;</span>
+        }
+
+        /**
+         * Used by the lastIndexOf(CharSequence methods) as a green implementation of lastIndexOf
+         *
+         * @param cs         the {@code CharSequence} to be processed
+         * @param searchChar the {@code CharSequence} to find
+         * @param start      the start index
+         * @return the index where the search sequence was found
+         */
+        static int lastIndexOf(final CharSequence cs, final CharSequence searchChar, int start) {
+<span class="fc bfc" id="L534" title="All 4 branches covered.">            if (searchChar == null || cs == null) {</span>
+<span class="fc" id="L535">                return NOT_FOUND;</span>
+            }
+<span class="pc bpc" id="L537" title="1 of 2 branches missed.">            if (searchChar instanceof String) {</span>
+<span class="pc bpc" id="L538" title="1 of 2 branches missed.">                if (cs instanceof String) {</span>
+<span class="fc" id="L539">                    return ((String) cs).lastIndexOf((String) searchChar, start);</span>
+<span class="nc bnc" id="L540" title="All 2 branches missed.">                } else if (cs instanceof StringBuilder) {</span>
+<span class="nc" id="L541">                    return ((StringBuilder) cs).lastIndexOf((String) searchChar, start);</span>
+<span class="nc bnc" id="L542" title="All 2 branches missed.">                } else if (cs instanceof StringBuffer) {</span>
+<span class="nc" id="L543">                    return ((StringBuffer) cs).lastIndexOf((String) searchChar, start);</span>
+                }
+            }
+
+<span class="nc" id="L547">            final int len1 = cs.length();</span>
+<span class="nc" id="L548">            final int len2 = searchChar.length();</span>
+
+<span class="nc bnc" id="L550" title="All 2 branches missed.">            if (start &gt; len1) {</span>
+<span class="nc" id="L551">                start = len1;</span>
+            }
+
+<span class="nc bnc" id="L554" title="All 6 branches missed.">            if (start &lt; 0 || len2 &lt; 0 || len2 &gt; len1) {</span>
+<span class="nc" id="L555">                return NOT_FOUND;</span>
+            }
+
+<span class="nc bnc" id="L558" title="All 2 branches missed.">            if (len2 == 0) {</span>
+<span class="nc" id="L559">                return start;</span>
+            }
+
+<span class="nc bnc" id="L562" title="All 2 branches missed.">            if (len2 &lt;= TO_STRING_LIMIT) {</span>
+<span class="nc bnc" id="L563" title="All 2 branches missed.">                if (cs instanceof String) {</span>
+<span class="nc" id="L564">                    return ((String) cs).lastIndexOf(searchChar.toString(), start);</span>
+<span class="nc bnc" id="L565" title="All 2 branches missed.">                } else if (cs instanceof StringBuilder) {</span>
+<span class="nc" id="L566">                    return ((StringBuilder) cs).lastIndexOf(searchChar.toString(), start);</span>
+<span class="nc bnc" id="L567" title="All 2 branches missed.">                } else if (cs instanceof StringBuffer) {</span>
+<span class="nc" id="L568">                    return ((StringBuffer) cs).lastIndexOf(searchChar.toString(), start);</span>
+                }
+            }
+
+<span class="nc bnc" id="L572" title="All 2 branches missed.">            if (start + len2 &gt; len1) {</span>
+<span class="nc" id="L573">                start = len1 - len2;</span>
+            }
+
+<span class="nc" id="L576">            final char char0 = searchChar.charAt(0);</span>
+
+<span class="nc" id="L578">            int i = start;</span>
+<span class="nc" id="L579">            while (true) {</span>
+<span class="nc bnc" id="L580" title="All 2 branches missed.">                while (cs.charAt(i) != char0) {</span>
+<span class="nc" id="L581">                    i--;</span>
+<span class="nc bnc" id="L582" title="All 2 branches missed.">                    if (i &lt; 0) {</span>
+<span class="nc" id="L583">                        return NOT_FOUND;</span>
+                    }
+                }
+<span class="nc bnc" id="L586" title="All 2 branches missed.">                if (checkLaterThan1(cs, searchChar, len2, i)) {</span>
+<span class="nc" id="L587">                    return i;</span>
+                }
+<span class="nc" id="L589">                i--;</span>
+<span class="nc bnc" id="L590" title="All 2 branches missed.">                if (i &lt; 0) {</span>
+<span class="nc" id="L591">                    return NOT_FOUND;</span>
+                }
+            }
+        }
+
+        private static boolean checkLaterThan1(final CharSequence cs, final CharSequence searchChar, final int len2, final int start1) {
+<span class="nc bnc" id="L597" title="All 2 branches missed.">            for (int i = 1, j = len2 - 1; i &lt;= j; i++, j--) {</span>
+<span class="nc bnc" id="L598" title="All 2 branches missed.">                if (cs.charAt(start1 + i) != searchChar.charAt(i)</span>
+                    ||
+<span class="nc bnc" id="L600" title="All 2 branches missed.">                    cs.charAt(start1 + j) != searchChar.charAt(j)</span>
+                ) {
+<span class="nc" id="L602">                    return false;</span>
+                }
+            }
+<span class="nc" id="L605">            return true;</span>
+        }
+    }
+
+<span class="fc" id="L609">    public static class CharTools {</span>
+        /**
+         * Linefeed character LF ({@code '\n'}, Unicode 000a).
+         *
+         * @see &lt;a href=&quot;http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6&quot;&gt;JLF: Escape Sequences
+         * for Character and String Literals&lt;/a&gt;
+         */
+        public static final char LF = '\n';
+        /**
+         * Carriage return characterf CR ('\r', Unicode 000d).
+         *
+         * @see &lt;a href=&quot;http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.6&quot;&gt;JLF: Escape Sequences
+         * for Character and String Literals&lt;/a&gt;
+         */
+        public static final char CR = '\r';
+        /**
+         * {@code \u0000} null control character ('\0'), abbreviated NUL.
+         */
+        public static final char NUL = '\0';
+<span class="fc" id="L628">        private static final String[] CHAR_STRING_ARRAY = new String[128];</span>
+
+        static {
+<span class="fc bfc" id="L631" title="All 2 branches covered.">            for (char c = 0; c &lt; CHAR_STRING_ARRAY.length; c++) {</span>
+<span class="fc" id="L632">                CHAR_STRING_ARRAY[c] = String.valueOf(c);</span>
+            }
+<span class="fc" id="L634">        }</span>
+    }
+
+    /**
+     * &lt;p&gt;Helpers to process Strings using regular expressions.&lt;/p&gt;
+     *
+     * @see Pattern
+     */
+<span class="fc" id="L642">    public static class RegExTools {</span>
+
+
+        /**
+         * &lt;p&gt;Replaces each substring of the text String that matches the given regular expression pattern with the given replacement.&lt;/p&gt;
+         * &lt;p&gt;
+         * This method is a {@code null} safe equivalent to:
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code pattern.matcher(text).replaceAll(replacement)}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;A {@code null} reference passed to this method is a no-op.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.replaceAll(null, *, *)       = null
+         * StringTools.replaceAll(&quot;any&quot;, (Pattern) null, *)   = &quot;any&quot;
+         * StringTools.replaceAll(&quot;any&quot;, *, null)   = &quot;any&quot;
+         * StringTools.replaceAll(&quot;&quot;, Pattern.compile(&quot;&quot;), &quot;zzz&quot;)    = &quot;zzz&quot;
+         * StringTools.replaceAll(&quot;&quot;, Pattern.compile(&quot;.*&quot;), &quot;zzz&quot;)  = &quot;zzz&quot;
+         * StringTools.replaceAll(&quot;&quot;, Pattern.compile(&quot;.+&quot;), &quot;zzz&quot;)  = &quot;&quot;
+         * StringTools.replaceAll(&quot;abc&quot;, Pattern.compile(&quot;&quot;), &quot;ZZ&quot;)  = &quot;ZZaZZbZZcZZ&quot;
+         * StringTools.replaceAll(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, Pattern.compile(&quot;&amp;lt;.*&amp;gt;&quot;), &quot;z&quot;)                 = &quot;z\nz&quot;
+         * StringTools.replaceAll(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, Pattern.compile(&quot;&amp;lt;.*&amp;gt;&quot;, Pattern.DOTALL), &quot;z&quot;) = &quot;z&quot;
+         * StringTools.replaceAll(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, Pattern.compile(&quot;(?s)&amp;lt;.*&amp;gt;&quot;), &quot;z&quot;)             = &quot;z&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, Pattern.compile(&quot;[a-z]&quot;), &quot;_&quot;)       = &quot;ABC___123&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, Pattern.compile(&quot;[^A-Z0-9]+&quot;), &quot;_&quot;)  = &quot;ABC_123&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, Pattern.compile(&quot;[^A-Z0-9]+&quot;), &quot;&quot;)   = &quot;ABC123&quot;
+         * StringTools.replaceAll(&quot;Lorem ipsum  dolor   sit&quot;, Pattern.compile(&quot;( +)([a-z]+)&quot;), &quot;_$2&quot;)  = &quot;Lorem_ipsum_dolor_sit&quot;
+         * &lt;/pre&gt;
+         *
+         * @param text        text to search and replace in, may be null
+         * @param regex       the regular expression pattern to which this string is to be matched
+         * @param replacement the string to be substituted for each match
+         * @return the text with any replacements processed,
+         * {@code null} if null String input
+         * @see java.util.regex.Matcher#replaceAll(String)
+         * @see Pattern
+         */
+        public static String replaceAll(final String text, final Pattern regex, final String replacement) {
+<span class="pc bpc" id="L681" title="4 of 6 branches missed.">            if (text == null || regex == null || replacement == null) {</span>
+<span class="fc" id="L682">                return text;</span>
+            }
+<span class="nc" id="L684">            return regex.matcher(text).replaceAll(replacement);</span>
+        }
+
+        /**
+         * &lt;p&gt;Replaces each substring of the text String that matches the given regular expression
+         * with the given replacement.&lt;/p&gt;
+         * &lt;p&gt;
+         * This method is a {@code null} safe equivalent to:
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code text.replaceAll(regex, replacement)}&lt;/li&gt;
+         *  &lt;li&gt;{@code Pattern.compile(regex).matcher(text).replaceAll(replacement)}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;A {@code null} reference passed to this method is a no-op.&lt;/p&gt;
+         *
+         * &lt;p&gt;Unlike in the {@link #replacePattern(String, String, String)} method, the {@link Pattern#DOTALL} option
+         * is NOT automatically added.
+         * To use the DOTALL option prepend {@code &quot;(?s)&quot;} to the regex.
+         * DOTALL is also known as single-line mode in Perl.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.replaceAll(null, *, *)       = null
+         * StringTools.replaceAll(&quot;any&quot;, (String) null, *)   = &quot;any&quot;
+         * StringTools.replaceAll(&quot;any&quot;, *, null)   = &quot;any&quot;
+         * StringTools.replaceAll(&quot;&quot;, &quot;&quot;, &quot;zzz&quot;)    = &quot;zzz&quot;
+         * StringTools.replaceAll(&quot;&quot;, &quot;.*&quot;, &quot;zzz&quot;)  = &quot;zzz&quot;
+         * StringTools.replaceAll(&quot;&quot;, &quot;.+&quot;, &quot;zzz&quot;)  = &quot;&quot;
+         * StringTools.replaceAll(&quot;abc&quot;, &quot;&quot;, &quot;ZZ&quot;)  = &quot;ZZaZZbZZcZZ&quot;
+         * StringTools.replaceAll(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, &quot;&amp;lt;.*&amp;gt;&quot;, &quot;z&quot;)      = &quot;z\nz&quot;
+         * StringTools.replaceAll(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, &quot;(?s)&amp;lt;.*&amp;gt;&quot;, &quot;z&quot;)  = &quot;z&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, &quot;[a-z]&quot;, &quot;_&quot;)       = &quot;ABC___123&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, &quot;[^A-Z0-9]+&quot;, &quot;_&quot;)  = &quot;ABC_123&quot;
+         * StringTools.replaceAll(&quot;ABCabc123&quot;, &quot;[^A-Z0-9]+&quot;, &quot;&quot;)   = &quot;ABC123&quot;
+         * StringTools.replaceAll(&quot;Lorem ipsum  dolor   sit&quot;, &quot;( +)([a-z]+)&quot;, &quot;_$2&quot;)  = &quot;Lorem_ipsum_dolor_sit&quot;
+         * &lt;/pre&gt;
+         *
+         * @param text        text to search and replace in, may be null
+         * @param regex       the regular expression to which this string is to be matched
+         * @param replacement the string to be substituted for each match
+         * @return the text with any replacements processed,
+         * {@code null} if null String input
+         * @throws java.util.regex.PatternSyntaxException if the regular expression's syntax is invalid
+         * @see #replacePattern(String, String, String)
+         * @see String#replaceAll(String, String)
+         * @see Pattern
+         * @see Pattern#DOTALL
+         */
+        public static String replaceAll(final String text, final String regex, final String replacement) {
+<span class="pc bpc" id="L732" title="3 of 6 branches missed.">            if (text == null || regex == null || replacement == null) {</span>
+<span class="nc" id="L733">                return text;</span>
+            }
+<span class="fc" id="L735">            return text.replaceAll(regex, replacement);</span>
+        }
+
+        /**
+         * &lt;p&gt;Replaces the first substring of the text string that matches the given regular expression pattern
+         * with the given replacement.&lt;/p&gt;
+         * &lt;p&gt;
+         * This method is a {@code null} safe equivalent to:
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code pattern.matcher(text).replaceFirst(replacement)}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;A {@code null} reference passed to this method is a no-op.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.replaceFirst(null, *, *)       = null
+         * StringTools.replaceFirst(&quot;any&quot;, (Pattern) null, *)   = &quot;any&quot;
+         * StringTools.replaceFirst(&quot;any&quot;, *, null)   = &quot;any&quot;
+         * StringTools.replaceFirst(&quot;&quot;, Pattern.compile(&quot;&quot;), &quot;zzz&quot;)    = &quot;zzz&quot;
+         * StringTools.replaceFirst(&quot;&quot;, Pattern.compile(&quot;.*&quot;), &quot;zzz&quot;)  = &quot;zzz&quot;
+         * StringTools.replaceFirst(&quot;&quot;, Pattern.compile(&quot;.+&quot;), &quot;zzz&quot;)  = &quot;&quot;
+         * StringTools.replaceFirst(&quot;abc&quot;, Pattern.compile(&quot;&quot;), &quot;ZZ&quot;)  = &quot;ZZabc&quot;
+         * StringTools.replaceFirst(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, Pattern.compile(&quot;&amp;lt;.*&amp;gt;&quot;), &quot;z&quot;)      = &quot;z\n&amp;lt;__&amp;gt;&quot;
+         * StringTools.replaceFirst(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, Pattern.compile(&quot;(?s)&amp;lt;.*&amp;gt;&quot;), &quot;z&quot;)  = &quot;z&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123&quot;, Pattern.compile(&quot;[a-z]&quot;), &quot;_&quot;)          = &quot;ABC_bc123&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123abc&quot;, Pattern.compile(&quot;[^A-Z0-9]+&quot;), &quot;_&quot;)  = &quot;ABC_123abc&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123abc&quot;, Pattern.compile(&quot;[^A-Z0-9]+&quot;), &quot;&quot;)   = &quot;ABC123abc&quot;
+         * StringTools.replaceFirst(&quot;Lorem ipsum  dolor   sit&quot;, Pattern.compile(&quot;( +)([a-z]+)&quot;), &quot;_$2&quot;)  = &quot;Lorem_ipsum  dolor   sit&quot;
+         * &lt;/pre&gt;
+         *
+         * @param text        text to search and replace in, may be null
+         * @param regex       the regular expression pattern to which this string is to be matched
+         * @param replacement the string to be substituted for the first match
+         * @return the text with the first replacement processed,
+         * {@code null} if null String input
+         * @see java.util.regex.Matcher#replaceFirst(String)
+         * @see Pattern
+         */
+        public static String replaceFirst(final String text, final Pattern regex, final String replacement) {
+<span class="pc bpc" id="L774" title="4 of 6 branches missed.">            if (text == null || regex == null || replacement == null) {</span>
+<span class="fc" id="L775">                return text;</span>
+            }
+<span class="nc" id="L777">            return regex.matcher(text).replaceFirst(replacement);</span>
+        }
+
+        /**
+         * &lt;p&gt;Replaces the first substring of the text string that matches the given regular expression
+         * with the given replacement.&lt;/p&gt;
+         * &lt;p&gt;
+         * This method is a {@code null} safe equivalent to:
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code text.replaceFirst(regex, replacement)}&lt;/li&gt;
+         *  &lt;li&gt;{@code Pattern.compile(regex).matcher(text).replaceFirst(replacement)}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;A {@code null} reference passed to this method is a no-op.&lt;/p&gt;
+         *
+         * &lt;p&gt;The {@link Pattern#DOTALL} option is NOT automatically added.
+         * To use the DOTALL option prepend {@code &quot;(?s)&quot;} to the regex.
+         * DOTALL is also known as single-line mode in Perl.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.replaceFirst(null, *, *)       = null
+         * StringTools.replaceFirst(&quot;any&quot;, (String) null, *)   = &quot;any&quot;
+         * StringTools.replaceFirst(&quot;any&quot;, *, null)   = &quot;any&quot;
+         * StringTools.replaceFirst(&quot;&quot;, &quot;&quot;, &quot;zzz&quot;)    = &quot;zzz&quot;
+         * StringTools.replaceFirst(&quot;&quot;, &quot;.*&quot;, &quot;zzz&quot;)  = &quot;zzz&quot;
+         * StringTools.replaceFirst(&quot;&quot;, &quot;.+&quot;, &quot;zzz&quot;)  = &quot;&quot;
+         * StringTools.replaceFirst(&quot;abc&quot;, &quot;&quot;, &quot;ZZ&quot;)  = &quot;ZZabc&quot;
+         * StringTools.replaceFirst(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, &quot;&amp;lt;.*&amp;gt;&quot;, &quot;z&quot;)      = &quot;z\n&amp;lt;__&amp;gt;&quot;
+         * StringTools.replaceFirst(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, &quot;(?s)&amp;lt;.*&amp;gt;&quot;, &quot;z&quot;)  = &quot;z&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123&quot;, &quot;[a-z]&quot;, &quot;_&quot;)          = &quot;ABC_bc123&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123abc&quot;, &quot;[^A-Z0-9]+&quot;, &quot;_&quot;)  = &quot;ABC_123abc&quot;
+         * StringTools.replaceFirst(&quot;ABCabc123abc&quot;, &quot;[^A-Z0-9]+&quot;, &quot;&quot;)   = &quot;ABC123abc&quot;
+         * StringTools.replaceFirst(&quot;Lorem ipsum  dolor   sit&quot;, &quot;( +)([a-z]+)&quot;, &quot;_$2&quot;)  = &quot;Lorem_ipsum  dolor   sit&quot;
+         * &lt;/pre&gt;
+         *
+         * @param text        text to search and replace in, may be null
+         * @param regex       the regular expression to which this string is to be matched
+         * @param replacement the string to be substituted for the first match
+         * @return the text with the first replacement processed,
+         * {@code null} if null String input
+         * @throws java.util.regex.PatternSyntaxException if the regular expression's syntax is invalid
+         * @see String#replaceFirst(String, String)
+         * @see Pattern
+         * @see Pattern#DOTALL
+         */
+        public static String replaceFirst(final String text, final String regex, final String replacement) {
+<span class="pc bpc" id="L823" title="3 of 6 branches missed.">            if (text == null || regex == null || replacement == null) {</span>
+<span class="nc" id="L824">                return text;</span>
+            }
+<span class="fc" id="L826">            return text.replaceFirst(regex, replacement);</span>
+        }
+
+        /**
+         * &lt;p&gt;Replaces each substring of the source String that matches the given regular expression with the given
+         * replacement using the {@link Pattern#DOTALL} option. DOTALL is also known as single-line mode in Perl.&lt;/p&gt;
+         * &lt;p&gt;
+         * This call is a {@code null} safe equivalent to:
+         * &lt;ul&gt;
+         * &lt;li&gt;{@code text.replaceAll(&amp;quot;(?s)&amp;quot; + regex, replacement)}&lt;/li&gt;
+         * &lt;li&gt;{@code Pattern.compile(regex, Pattern.DOTALL).matcher(text).replaceAll(replacement)}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;A {@code null} reference passed to this method is a no-op.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.replacePattern(null, *, *)       = null
+         * StringTools.replacePattern(&quot;any&quot;, (String) null, *)   = &quot;any&quot;
+         * StringTools.replacePattern(&quot;any&quot;, *, null)   = &quot;any&quot;
+         * StringTools.replacePattern(&quot;&quot;, &quot;&quot;, &quot;zzz&quot;)    = &quot;zzz&quot;
+         * StringTools.replacePattern(&quot;&quot;, &quot;.*&quot;, &quot;zzz&quot;)  = &quot;zzz&quot;
+         * StringTools.replacePattern(&quot;&quot;, &quot;.+&quot;, &quot;zzz&quot;)  = &quot;&quot;
+         * StringTools.replacePattern(&quot;&amp;lt;__&amp;gt;\n&amp;lt;__&amp;gt;&quot;, &quot;&amp;lt;.*&amp;gt;&quot;, &quot;z&quot;)       = &quot;z&quot;
+         * StringTools.replacePattern(&quot;ABCabc123&quot;, &quot;[a-z]&quot;, &quot;_&quot;)       = &quot;ABC___123&quot;
+         * StringTools.replacePattern(&quot;ABCabc123&quot;, &quot;[^A-Z0-9]+&quot;, &quot;_&quot;)  = &quot;ABC_123&quot;
+         * StringTools.replacePattern(&quot;ABCabc123&quot;, &quot;[^A-Z0-9]+&quot;, &quot;&quot;)   = &quot;ABC123&quot;
+         * StringTools.replacePattern(&quot;Lorem ipsum  dolor   sit&quot;, &quot;( +)([a-z]+)&quot;, &quot;_$2&quot;)  = &quot;Lorem_ipsum_dolor_sit&quot;
+         * &lt;/pre&gt;
+         *
+         * @param text        the source string
+         * @param regex       the regular expression to which this string is to be matched
+         * @param replacement the string to be substituted for each match
+         * @return The resulting {@code String}
+         * @see #replaceAll(String, String, String)
+         * @see String#replaceAll(String, String)
+         * @see Pattern#DOTALL
+         */
+        public static String replacePattern(final String text, final String regex, final String replacement) {
+<span class="pc bpc" id="L864" title="3 of 6 branches missed.">            if (text == null || regex == null || replacement == null) {</span>
+<span class="nc" id="L865">                return text;</span>
+            }
+<span class="fc" id="L867">            return Pattern.compile(regex, Pattern.DOTALL).matcher(text).replaceAll(replacement);</span>
+        }
+
+    }
+
+    /**
+     * &lt;p&gt;Operations on {@link String} that are
+     * {@code null} safe.&lt;/p&gt;
+     *
+     * &lt;ul&gt;
+     *  &lt;li&gt;&lt;b&gt;IsEmpty/IsBlank&lt;/b&gt;
+     *      - checks if a String contains text&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Trim/Strip&lt;/b&gt;
+     *      - removes leading and trailing whitespace&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Equals/Compare&lt;/b&gt;
+     *      - compares two strings in a null-safe manner&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;startsWith&lt;/b&gt;
+     *      - check if a String starts with a prefix in a null-safe manner&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;endsWith&lt;/b&gt;
+     *      - check if a String ends with a suffix in a null-safe manner&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;IndexOf/LastIndexOf/Contains&lt;/b&gt;
+     *      - null-safe index-of checks
+     *  &lt;li&gt;&lt;b&gt;IndexOfAny/LastIndexOfAny/IndexOfAnyBut/LastIndexOfAnyBut&lt;/b&gt;
+     *      - index-of any of a set of Strings&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;ContainsOnly/ContainsNone/ContainsAny&lt;/b&gt;
+     *      - checks if String contains only/none/any of these characters&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Substring/Left/Right/Mid&lt;/b&gt;
+     *      - null-safe substring extractions&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;SubstringBefore/SubstringAfter/SubstringBetween&lt;/b&gt;
+     *      - substring extraction relative to other strings&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Split/Join&lt;/b&gt;
+     *      - splits a String into an array of substrings and vice versa&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Remove/Delete&lt;/b&gt;
+     *      - removes part of a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Replace/Overlay&lt;/b&gt;
+     *      - Searches a String and replaces one String with another&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Chomp/Chop&lt;/b&gt;
+     *      - removes the last part of a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;AppendIfMissing&lt;/b&gt;
+     *      - appends a suffix to the end of the String if not present&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;PrependIfMissing&lt;/b&gt;
+     *      - prepends a prefix to the start of the String if not present&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;LeftPad/RightPad/Center/Repeat&lt;/b&gt;
+     *      - pads a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;UpperCase/LowerCase/SwapCase/Capitalize/Uncapitalize&lt;/b&gt;
+     *      - changes the case of a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;CountMatches&lt;/b&gt;
+     *      - counts the number of occurrences of one String in another&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;IsAlpha/IsNumeric/IsWhitespace/IsAsciiPrintable&lt;/b&gt;
+     *      - checks the characters in a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;DefaultString&lt;/b&gt;
+     *      - protects against a null input String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Rotate&lt;/b&gt;
+     *      - rotate (circular shift) a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Reverse/ReverseDelimited&lt;/b&gt;
+     *      - reverses a String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Abbreviate&lt;/b&gt;
+     *      - abbreviates a string using ellipses or another given String&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;Difference&lt;/b&gt;
+     *      - compares Strings and reports on their differences&lt;/li&gt;
+     *  &lt;li&gt;&lt;b&gt;LevenshteinDistance&lt;/b&gt;
+     *      - the number of changes needed to change one String into another&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * &lt;p&gt;The {@code StringTools} class defines certain words related to
+     * String handling.&lt;/p&gt;
+     *
+     * &lt;ul&gt;
+     *  &lt;li&gt;null - {@code null}&lt;/li&gt;
+     *  &lt;li&gt;empty - a zero-length string ({@code &quot;&quot;})&lt;/li&gt;
+     *  &lt;li&gt;space - the space character ({@code ' '}, char 32)&lt;/li&gt;
+     *  &lt;li&gt;whitespace - the characters defined by {@link Character#isWhitespace(char)}&lt;/li&gt;
+     *  &lt;li&gt;trim - the characters &amp;lt;= 32 as in {@link String#trim()}&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * &lt;p&gt;{@code StringTools} handles {@code null} input Strings quietly.
+     * That is to say that a {@code null} input will return {@code null}.
+     * Where a {@code boolean} or {@code int} is being returned
+     * details vary by method.&lt;/p&gt;
+     *
+     * &lt;p&gt;A side effect of the {@code null} handling is that a
+     * {@code NullPointerException} should be considered a bug in
+     * {@code StringTools}.&lt;/p&gt;
+     *
+     * &lt;p&gt;Methods in this class include sample code in their Javadoc comments to explain their operation.
+     * The symbol {@code *} is used to indicate any input including {@code null}.&lt;/p&gt;
+     *
+     * &lt;p&gt;#ThreadSafe#&lt;/p&gt;
+     */
+    //@Immutable
+<span class="fc" id="L957">    public static class StringTools {</span>
+
+        /**
+         * A String for a space character.
+         */
+        public static final String SPACE = &quot; &quot;;
+        /**
+         * The empty String {@code &quot;&quot;}.
+         */
+        public static final String EMPTY = &quot;&quot;;
+
+        // Performance testing notes (JDK 1.4, Jul03, scolebourne)
+        // Whitespace:
+        // Character.isWhitespace() is faster than WHITESPACE.indexOf()
+        // where WHITESPACE is a string of all whitespace characters
+        //
+        // Character access:
+        // String.charAt(n) versus toCharArray(), then array[n]
+        // String.charAt(n) is about 15% worse for a 10K string
+        // They are about equal for a length 50 string
+        // String.charAt(n) is about 4 times better for a length 3 string
+        // String.charAt(n) is best bet overall
+        //
+        // Append:
+        // String.concat about twice as fast as StringBuffer.append
+        // (not sure who tested this)
+        /**
+         * A String for linefeed LF (&quot;\n&quot;).
+         * &lt;p&gt;
+         * &lt;p&gt;
+         * for Character and String Literals&lt;/a&gt;
+         */
+        public static final String LF = &quot;\n&quot;;
+        /**
+         * A String for carriage return CR (&quot;\r&quot;).
+         * &lt;p&gt;
+         * &lt;p&gt;
+         * for Character and String Literals&lt;/a&gt;
+         */
+        public static final String CR = &quot;\r&quot;;
+        /**
+         * Represents a failed index search.
+         */
+        public static final int INDEX_NOT_FOUND = -1;
+
+        /**
+         * Gets a CharSequence length or {@code 0} if the CharSequence is
+         * {@code null}.
+         *
+         * @param cs a CharSequence or {@code null}
+         * @return CharSequence length or {@code 0} if the CharSequence is
+         * {@code null}.
+         * @since 2.4
+         * @since 3.0 Changed signature from length(String) to length(CharSequence)
+         */
+        public static int length(final CharSequence cs) {
+<span class="fc bfc" id="L1013" title="All 2 branches covered.">            return cs == null ? 0 : cs.length();</span>
+        }
+
+        /**
+         * &lt;p&gt;Compare two Strings lexicographically, as per {@link String#compareTo(String)}, returning :&lt;/p&gt;
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code int = 0}, if {@code str1} is equal to {@code str2} (or both {@code null})&lt;/li&gt;
+         *  &lt;li&gt;{@code int &lt; 0}, if {@code str1} is less than {@code str2}&lt;/li&gt;
+         *  &lt;li&gt;{@code int &gt; 0}, if {@code str1} is greater than {@code str2}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;This is a {@code null} safe version of :&lt;/p&gt;
+         * &lt;blockquote&gt;&lt;pre&gt;str1.compareTo(str2)&lt;/pre&gt;&lt;/blockquote&gt;
+         *
+         * &lt;p&gt;{@code null} inputs are handled according to the {@code nullIsLess} parameter.
+         * Two {@code null} references are considered equal.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.compare(null, null, *)     = 0
+         * StringTools.compare(null , &quot;a&quot;, true)  &amp;lt; 0
+         * StringTools.compare(null , &quot;a&quot;, false) &amp;gt; 0
+         * StringTools.compare(&quot;a&quot;, null, true)   &amp;gt; 0
+         * StringTools.compare(&quot;a&quot;, null, false)  &amp;lt; 0
+         * StringTools.compare(&quot;abc&quot;, &quot;abc&quot;, *)   = 0
+         * StringTools.compare(&quot;a&quot;, &quot;b&quot;, *)       &amp;lt; 0
+         * StringTools.compare(&quot;b&quot;, &quot;a&quot;, *)       &amp;gt; 0
+         * StringTools.compare(&quot;a&quot;, &quot;B&quot;, *)       &amp;gt; 0
+         * StringTools.compare(&quot;ab&quot;, &quot;abc&quot;, *)    &amp;lt; 0
+         * &lt;/pre&gt;
+         *
+         * @param str1       the String to compare from
+         * @param str2       the String to compare to
+         * @param nullIsLess whether consider {@code null} value less than non-{@code null} value
+         * @return &amp;lt; 0, 0, &amp;gt; 0, if {@code str1} is respectively less, equal ou greater than {@code str2}
+         */
+        public static int compare(final String str1, final String str2, final boolean nullIsLess) {
+<span class="fc bfc" id="L1049" title="All 2 branches covered.">            if (str1 == str2) { // NOSONARLINT this intentionally uses == to allow for both null</span>
+<span class="fc" id="L1050">                return 0;</span>
+            }
+<span class="pc bpc" id="L1052" title="1 of 2 branches missed.">            if (str1 == null) {</span>
+<span class="nc bnc" id="L1053" title="All 2 branches missed.">                return nullIsLess ? -1 : 1;</span>
+            }
+<span class="pc bpc" id="L1055" title="1 of 2 branches missed.">            if (str2 == null) {</span>
+<span class="nc bnc" id="L1056" title="All 2 branches missed.">                return nullIsLess ? 1 : -1;</span>
+            }
+<span class="fc" id="L1058">            return str1.compareTo(str2);</span>
+        }
+
+        /**
+         * &lt;p&gt;Compare two Strings lexicographically, ignoring case differences,
+         * as per {@link String#compareToIgnoreCase(String)}, returning :&lt;/p&gt;
+         * &lt;ul&gt;
+         *  &lt;li&gt;{@code int = 0}, if {@code str1} is equal to {@code str2} (or both {@code null})&lt;/li&gt;
+         *  &lt;li&gt;{@code int &lt; 0}, if {@code str1} is less than {@code str2}&lt;/li&gt;
+         *  &lt;li&gt;{@code int &gt; 0}, if {@code str1} is greater than {@code str2}&lt;/li&gt;
+         * &lt;/ul&gt;
+         *
+         * &lt;p&gt;This is a {@code null} safe version of :&lt;/p&gt;
+         * &lt;blockquote&gt;&lt;pre&gt;str1.compareToIgnoreCase(str2)&lt;/pre&gt;&lt;/blockquote&gt;
+         *
+         * &lt;p&gt;{@code null} inputs are handled according to the {@code nullIsLess} parameter.
+         * Two {@code null} references are considered equal.
+         * Comparison is case insensitive.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.compareIgnoreCase(null, null, *)     = 0
+         * StringTools.compareIgnoreCase(null , &quot;a&quot;, true)  &amp;lt; 0
+         * StringTools.compareIgnoreCase(null , &quot;a&quot;, false) &amp;gt; 0
+         * StringTools.compareIgnoreCase(&quot;a&quot;, null, true)   &amp;gt; 0
+         * StringTools.compareIgnoreCase(&quot;a&quot;, null, false)  &amp;lt; 0
+         * StringTools.compareIgnoreCase(&quot;abc&quot;, &quot;abc&quot;, *)   = 0
+         * StringTools.compareIgnoreCase(&quot;abc&quot;, &quot;ABC&quot;, *)   = 0
+         * StringTools.compareIgnoreCase(&quot;a&quot;, &quot;b&quot;, *)       &amp;lt; 0
+         * StringTools.compareIgnoreCase(&quot;b&quot;, &quot;a&quot;, *)       &amp;gt; 0
+         * StringTools.compareIgnoreCase(&quot;a&quot;, &quot;B&quot;, *)       &amp;lt; 0
+         * StringTools.compareIgnoreCase(&quot;A&quot;, &quot;b&quot;, *)       &amp;lt; 0
+         * StringTools.compareIgnoreCase(&quot;ab&quot;, &quot;abc&quot;, *)    &amp;lt; 0
+         * &lt;/pre&gt;
+         *
+         * @param str1       the String to compare from
+         * @param str2       the String to compare to
+         * @param nullIsLess whether consider {@code null} value less than non-{@code null} value
+         * @return &amp;lt; 0, 0, &amp;gt; 0, if {@code str1} is respectively less, equal ou greater than {@code str2},
+         * ignoring case differences.
+         */
+        public static int compareIgnoreCase(final String str1, final String str2, final boolean nullIsLess) {
+<span class="fc bfc" id="L1099" title="All 2 branches covered.">            if (str1 == str2) { // NOSONARLINT this intentionally uses == to allow for both null</span>
+<span class="fc" id="L1100">                return 0;</span>
+            }
+<span class="pc bpc" id="L1102" title="1 of 2 branches missed.">            if (str1 == null) {</span>
+<span class="nc bnc" id="L1103" title="All 2 branches missed.">                return nullIsLess ? -1 : 1;</span>
+            }
+<span class="pc bpc" id="L1105" title="1 of 2 branches missed.">            if (str2 == null) {</span>
+<span class="nc bnc" id="L1106" title="All 2 branches missed.">                return nullIsLess ? 1 : -1;</span>
+            }
+<span class="fc" id="L1108">            return str1.compareToIgnoreCase(str2);</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if CharSequence contains a search character, handling {@code null}.
+         * This method uses {@link String#indexOf(int)} if possible.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} or empty (&quot;&quot;) CharSequence will return {@code false}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.contains(null, *)    = false
+         * StringTools.contains(&quot;&quot;, *)      = false
+         * StringTools.contains(&quot;abc&quot;, 'a') = true
+         * StringTools.contains(&quot;abc&quot;, 'z') = false
+         * &lt;/pre&gt;
+         *
+         * @param seq        the CharSequence to check, may be null
+         * @param searchChar the character to find
+         * @return true if the CharSequence contains the search character,
+         * false if not or {@code null} string input
+         */
+        public static boolean contains(final CharSequence seq, final int searchChar) {
+<span class="fc bfc" id="L1130" title="All 2 branches covered.">            if (isEmpty(seq)) {</span>
+<span class="fc" id="L1131">                return false;</span>
+            }
+<span class="fc bfc" id="L1133" title="All 2 branches covered.">            return CharSequenceTools.indexOf(seq, searchChar, 0) &gt;= 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if the CharSequence contains any character in the given
+         * set of characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} CharSequence will return {@code false}.
+         * A {@code null} or zero length search array will return {@code false}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.containsAny(null, *)                  = false
+         * StringTools.containsAny(&quot;&quot;, *)                    = false
+         * StringTools.containsAny(*, null)                  = false
+         * StringTools.containsAny(*, [])                    = false
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, ['z', 'a']) = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, ['b', 'y']) = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, ['z', 'y']) = true
+         * StringTools.containsAny(&quot;aba&quot;, ['z'])             = false
+         * &lt;/pre&gt;
+         *
+         * @param cs          the CharSequence to check, may be null
+         * @param searchChars the chars to search for, may be null
+         * @return the {@code true} if any of the chars are found,
+         * {@code false} if no match or null input
+         */
+        public static boolean containsAny(final CharSequence cs, final char... searchChars) {
+<span class="fc bfc" id="L1160" title="All 4 branches covered.">            if (isEmpty(cs) || ArrayTools.isEmpty(searchChars)) {</span>
+<span class="fc" id="L1161">                return false;</span>
+            }
+<span class="fc" id="L1163">            final int csLength = cs.length();</span>
+<span class="fc" id="L1164">            final int searchLength = searchChars.length;</span>
+<span class="fc" id="L1165">            final int csLast = csLength - 1;</span>
+<span class="fc" id="L1166">            final int searchLast = searchLength - 1;</span>
+<span class="fc bfc" id="L1167" title="All 2 branches covered.">            for (int i = 0; i &lt; csLength; i++) {</span>
+<span class="fc" id="L1168">                final char ch = cs.charAt(i);</span>
+<span class="fc bfc" id="L1169" title="All 2 branches covered.">                for (int j = 0; j &lt; searchLength; j++) {</span>
+<span class="fc bfc" id="L1170" title="All 2 branches covered.">                    if (searchChars[j] == ch) {</span>
+<span class="pc bpc" id="L1171" title="1 of 2 branches missed.">                        if (Character.isHighSurrogate(ch)) {</span>
+<span class="nc bnc" id="L1172" title="All 2 branches missed.">                            if (j == searchLast) {</span>
+                                // missing low surrogate, fine, like String.indexOf(String)
+<span class="nc" id="L1174">                                return true;</span>
+                            }
+<span class="nc bnc" id="L1176" title="All 4 branches missed.">                            if (i &lt; csLast &amp;&amp; searchChars[j + 1] == cs.charAt(i + 1)) {</span>
+<span class="nc" id="L1177">                                return true;</span>
+                            }
+                        } else {
+                            // ch is in the Basic Multilingual Plane
+<span class="fc" id="L1181">                            return true;</span>
+                        }
+                    }
+                }
+            }
+<span class="fc" id="L1186">            return false;</span>
+        }
+
+        /**
+         * &lt;p&gt;
+         * Checks if the CharSequence contains any character in the given set of characters.
+         * &lt;/p&gt;
+         *
+         * &lt;p&gt;
+         * A {@code null} CharSequence will return {@code false}. A {@code null} search CharSequence will return
+         * {@code false}.
+         * &lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.containsAny(null, *)               = false
+         * StringTools.containsAny(&quot;&quot;, *)                 = false
+         * StringTools.containsAny(*, null)               = false
+         * StringTools.containsAny(*, &quot;&quot;)                 = false
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, &quot;za&quot;)    = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, &quot;by&quot;)    = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, &quot;zy&quot;)    = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, &quot;\tx&quot;)   = true
+         * StringTools.containsAny(&quot;zzabyycdxx&quot;, &quot;$.#yF&quot;) = true
+         * StringTools.containsAny(&quot;aba&quot;, &quot;z&quot;)            = false
+         * &lt;/pre&gt;
+         *
+         * @param cs          the CharSequence to check, may be null
+         * @param searchChars the chars to search for, may be null
+         * @return the {@code true} if any of the chars are found, {@code false} if no match or null input
+         */
+        public static boolean containsAny(final CharSequence cs, final CharSequence searchChars) {
+<span class="fc bfc" id="L1217" title="All 2 branches covered.">            if (searchChars == null) {</span>
+<span class="fc" id="L1218">                return false;</span>
+            }
+<span class="fc" id="L1220">            return containsAny(cs, CharSequenceTools.toCharArray(searchChars));</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks that the CharSequence does not contain certain characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} CharSequence will return {@code true}.
+         * A {@code null} invalid character array will return {@code true}.
+         * An empty CharSequence (length()=0) always returns true.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.containsNone(null, *)       = true
+         * StringTools.containsNone(*, null)       = true
+         * StringTools.containsNone(&quot;&quot;, *)         = true
+         * StringTools.containsNone(&quot;ab&quot;, '')      = true
+         * StringTools.containsNone(&quot;abab&quot;, 'xyz') = true
+         * StringTools.containsNone(&quot;ab1&quot;, 'xyz')  = true
+         * StringTools.containsNone(&quot;abz&quot;, 'xyz')  = false
+         * &lt;/pre&gt;
+         *
+         * @param cs          the CharSequence to check, may be null
+         * @param searchChars an array of invalid chars, may be null
+         * @return true if it contains none of the invalid chars, or is null
+         */
+        public static boolean containsNone(final CharSequence cs, final char... searchChars) {
+<span class="fc bfc" id="L1245" title="All 4 branches covered.">            if (cs == null || searchChars == null) {</span>
+<span class="fc" id="L1246">                return true;</span>
+            }
+<span class="fc" id="L1248">            final int csLen = cs.length();</span>
+<span class="fc" id="L1249">            final int csLast = csLen - 1;</span>
+<span class="fc" id="L1250">            final int searchLen = searchChars.length;</span>
+<span class="fc" id="L1251">            final int searchLast = searchLen - 1;</span>
+<span class="fc bfc" id="L1252" title="All 2 branches covered.">            for (int i = 0; i &lt; csLen; i++) {</span>
+<span class="fc" id="L1253">                final char ch = cs.charAt(i);</span>
+<span class="fc bfc" id="L1254" title="All 2 branches covered.">                for (int j = 0; j &lt; searchLen; j++) {</span>
+<span class="fc bfc" id="L1255" title="All 2 branches covered.">                    if (searchChars[j] == ch) {</span>
+<span class="pc bpc" id="L1256" title="1 of 2 branches missed.">                        if (Character.isHighSurrogate(ch)) {</span>
+<span class="nc bnc" id="L1257" title="All 2 branches missed.">                            if (j == searchLast) {</span>
+                                // missing low surrogate, fine, like String.indexOf(String)
+<span class="nc" id="L1259">                                return false;</span>
+                            }
+<span class="nc bnc" id="L1261" title="All 4 branches missed.">                            if (i &lt; csLast &amp;&amp; searchChars[j + 1] == cs.charAt(i + 1)) {</span>
+<span class="nc" id="L1262">                                return false;</span>
+                            }
+                        } else {
+                            // ch is in the Basic Multilingual Plane
+<span class="fc" id="L1266">                            return false;</span>
+                        }
+                    }
+                }
+            }
+<span class="fc" id="L1271">            return true;</span>
+        }
+
+        /**
+         * &lt;p&gt;Compares two CharSequences, returning {@code true} if they represent
+         * equal sequences of characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null}s are handled without exceptions. Two {@code null}
+         * references are considered to be equal. The comparison is &lt;strong&gt;case sensitive&lt;/strong&gt;.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.equals(null, null)   = true
+         * StringTools.equals(null, &quot;abc&quot;)  = false
+         * StringTools.equals(&quot;abc&quot;, null)  = false
+         * StringTools.equals(&quot;abc&quot;, &quot;abc&quot;) = true
+         * StringTools.equals(&quot;abc&quot;, &quot;ABC&quot;) = false
+         * &lt;/pre&gt;
+         *
+         * @param cs1 the first CharSequence, may be {@code null}
+         * @param cs2 the second CharSequence, may be {@code null}
+         * @return {@code true} if the CharSequences are equal (case-sensitive), or both {@code null}
+         */
+        public static boolean equals(final CharSequence cs1, final CharSequence cs2) {
+<span class="fc bfc" id="L1294" title="All 2 branches covered.">            if (cs1 == cs2) {</span>
+<span class="fc" id="L1295">                return true;</span>
+            }
+<span class="fc bfc" id="L1297" title="All 4 branches covered.">            if (cs1 == null || cs2 == null) {</span>
+<span class="fc" id="L1298">                return false;</span>
+            }
+<span class="fc bfc" id="L1300" title="All 2 branches covered.">            if (cs1.length() != cs2.length()) {</span>
+<span class="fc" id="L1301">                return false;</span>
+            }
+<span class="pc bpc" id="L1303" title="2 of 4 branches missed.">            if (cs1 instanceof String &amp;&amp; cs2 instanceof String) {</span>
+<span class="fc" id="L1304">                return cs1.equals(cs2);</span>
+            }
+            // Step-wise comparison
+<span class="nc" id="L1307">            final int length = cs1.length();</span>
+<span class="nc bnc" id="L1308" title="All 2 branches missed.">            for (int i = 0; i &lt; length; i++) {</span>
+<span class="nc bnc" id="L1309" title="All 2 branches missed.">                if (cs1.charAt(i) != cs2.charAt(i)) {</span>
+<span class="nc" id="L1310">                    return false;</span>
+                }
+            }
+<span class="nc" id="L1313">            return true;</span>
+        }
+
+        /**
+         * &lt;p&gt;Compares all Strings in an array and returns the initial sequence of
+         * characters that is common to all of them.&lt;/p&gt;
+         *
+         * &lt;p&gt;For example,
+         * {@code getCommonPrefix(new String[] {&quot;i am a machine&quot;, &quot;i am a robot&quot;}) -&amp;gt; &quot;i am a &quot;}&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.getCommonPrefix(null) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abc&quot;}) = &quot;abc&quot;
+         * StringTools.getCommonPrefix(new String[] {null, null}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;&quot;, &quot;&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;&quot;, null}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abc&quot;, null, null}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {null, null, &quot;abc&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;&quot;, &quot;abc&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abc&quot;, &quot;&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abc&quot;, &quot;abc&quot;}) = &quot;abc&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abc&quot;, &quot;a&quot;}) = &quot;a&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;ab&quot;, &quot;abxyz&quot;}) = &quot;ab&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abcde&quot;, &quot;abxyz&quot;}) = &quot;ab&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;abcde&quot;, &quot;xyz&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;xyz&quot;, &quot;abcde&quot;}) = &quot;&quot;
+         * StringTools.getCommonPrefix(new String[] {&quot;i am a machine&quot;, &quot;i am a robot&quot;}) = &quot;i am a &quot;
+         * &lt;/pre&gt;
+         *
+         * @param strs array of String objects, entries may be null
+         * @return the initial sequence of characters that are common to all Strings
+         * in the array; empty String if the array is null, the elements are all null
+         * or if there is no common prefix.
+         */
+        public static String getCommonPrefix(final String... strs) {
+<span class="fc bfc" id="L1349" title="All 2 branches covered.">            if (ArrayTools.isEmpty(strs)) {</span>
+<span class="fc" id="L1350">                return EMPTY;</span>
+            }
+<span class="fc" id="L1352">            final int smallestIndexOfDiff = indexOfDifference(strs);</span>
+<span class="fc bfc" id="L1353" title="All 2 branches covered.">            if (smallestIndexOfDiff == INDEX_NOT_FOUND) {</span>
+                // all strings were identical
+<span class="pc bpc" id="L1355" title="1 of 2 branches missed.">                if (strs[0] == null) {</span>
+<span class="nc" id="L1356">                    return EMPTY;</span>
+                }
+<span class="fc" id="L1358">                return strs[0];</span>
+<span class="pc bpc" id="L1359" title="1 of 2 branches missed.">            } else if (smallestIndexOfDiff == 0) {</span>
+                // there were no common initial characters
+<span class="fc" id="L1361">                return EMPTY;</span>
+            } else {
+                // we found a common initial character sequence
+<span class="nc" id="L1364">                return strs[0].substring(0, smallestIndexOfDiff);</span>
+            }
+        }
+
+        /**
+         * &lt;p&gt;Returns either the passed in CharSequence, or if the CharSequence is
+         * empty or {@code null}, the value supplied by {@code defaultStrSupplier}.&lt;/p&gt;
+         *
+         * &lt;p&gt;Caller responsible for thread-safety and exception handling of default value supplier&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * {@code
+         * StringTools.getIfEmpty(null, () -&gt; &quot;NULL&quot;)    = &quot;NULL&quot;
+         * StringTools.getIfEmpty(&quot;&quot;, () -&gt; &quot;NULL&quot;)      = &quot;NULL&quot;
+         * StringTools.getIfEmpty(&quot; &quot;, () -&gt; &quot;NULL&quot;)     = &quot; &quot;
+         * StringTools.getIfEmpty(&quot;bat&quot;, () -&gt; &quot;NULL&quot;)   = &quot;bat&quot;
+         * StringTools.getIfEmpty(&quot;&quot;, () -&gt; null)        = null
+         * StringTools.getIfEmpty(&quot;&quot;, null)              = null
+         * }
+         * &lt;/pre&gt;
+         *
+         * @param &lt;T&gt;             the specific kind of CharSequence
+         * @param str             the CharSequence to check, may be null
+         * @param defaultSupplier the supplier of default CharSequence to return
+         *                        if the input is empty (&quot;&quot;) or {@code null}, may be null
+         * @return the passed in CharSequence, or the default
+         */
+        public static &lt;T extends CharSequence&gt; T getIfEmpty(final T str, final Supplier&lt;T&gt; defaultSupplier) {
+<span class="nc bnc" id="L1392" title="All 4 branches missed.">            return isEmpty(str) ? defaultSupplier == null ? null : defaultSupplier.get() : str;</span>
+        }
+
+        /**
+         * &lt;p&gt;Search a CharSequence to find the first index of any
+         * character in the given set of characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} String will return {@code -1}.
+         * A {@code null} or zero length search array will return {@code -1}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.indexOfAny(null, *)                  = -1
+         * StringTools.indexOfAny(&quot;&quot;, *)                    = -1
+         * StringTools.indexOfAny(*, null)                  = -1
+         * StringTools.indexOfAny(*, [])                    = -1
+         * StringTools.indexOfAny(&quot;zzabyycdxx&quot;, ['z', 'a']) = 0
+         * StringTools.indexOfAny(&quot;zzabyycdxx&quot;, ['b', 'y']) = 3
+         * StringTools.indexOfAny(&quot;aba&quot;, ['z'])             = -1
+         * &lt;/pre&gt;
+         *
+         * @param cs          the CharSequence to check, may be null
+         * @param searchChars the chars to search for, may be null
+         * @return the index of any of the chars, -1 if no match or null input
+         */
+        public static int indexOfAny(final CharSequence cs, final char... searchChars) {
+<span class="fc bfc" id="L1417" title="All 4 branches covered.">            if (isEmpty(cs) || ArrayTools.isEmpty(searchChars)) {</span>
+<span class="fc" id="L1418">                return INDEX_NOT_FOUND;</span>
+            }
+<span class="fc" id="L1420">            final int csLen = cs.length();</span>
+<span class="fc" id="L1421">            final int csLast = csLen - 1;</span>
+<span class="fc" id="L1422">            final int searchLen = searchChars.length;</span>
+<span class="fc" id="L1423">            final int searchLast = searchLen - 1;</span>
+<span class="fc bfc" id="L1424" title="All 2 branches covered.">            for (int i = 0; i &lt; csLen; i++) {</span>
+<span class="fc" id="L1425">                final char ch = cs.charAt(i);</span>
+<span class="fc bfc" id="L1426" title="All 2 branches covered.">                for (int j = 0; j &lt; searchLen; j++) {</span>
+<span class="fc bfc" id="L1427" title="All 2 branches covered.">                    if (searchChars[j] == ch) {</span>
+<span class="pc bpc" id="L1428" title="1 of 6 branches missed.">                        if (i &lt; csLast &amp;&amp; j &lt; searchLast || Character.isHighSurrogate(ch)) {</span>
+                            // ch is a supplementary character
+<span class="fc bfc" id="L1430" title="All 2 branches covered.">                            if (searchChars[j + 1] == cs.charAt(i + 1)) {</span>
+<span class="fc" id="L1431">                                return i;</span>
+                            }
+                        } else {
+<span class="fc" id="L1434">                            return i;</span>
+                        }
+                    }
+                }
+            }
+<span class="fc" id="L1439">            return INDEX_NOT_FOUND;</span>
+        }
+
+        /**
+         * &lt;p&gt;Searches a CharSequence to find the first index of any
+         * character not in the given set of characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} CharSequence will return {@code -1}.
+         * A {@code null} or zero length search array will return {@code -1}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.indexOfAnyBut(null, *)                              = -1
+         * StringTools.indexOfAnyBut(&quot;&quot;, *)                                = -1
+         * StringTools.indexOfAnyBut(*, null)                              = -1
+         * StringTools.indexOfAnyBut(*, [])                                = -1
+         * StringTools.indexOfAnyBut(&quot;zzabyycdxx&quot;, new char[] {'z', 'a'} ) = 3
+         * StringTools.indexOfAnyBut(&quot;aba&quot;, new char[] {'z'} )             = 0
+         * StringTools.indexOfAnyBut(&quot;aba&quot;, new char[] {'a', 'b'} )        = -1
+         *
+         * &lt;/pre&gt;
+         *
+         * @param cs          the CharSequence to check, may be null
+         * @param searchChars the chars to search for, may be null
+         * @return the index of any of the chars, -1 if no match or null input
+         */
+        public static int indexOfAnyBut(final CharSequence cs, final char... searchChars) {
+<span class="fc bfc" id="L1465" title="All 4 branches covered.">            if (isEmpty(cs) || ArrayTools.isEmpty(searchChars)) {</span>
+<span class="fc" id="L1466">                return INDEX_NOT_FOUND;</span>
+            }
+<span class="fc" id="L1468">            final int csLen = cs.length();</span>
+<span class="fc" id="L1469">            final int csLast = csLen - 1;</span>
+<span class="fc" id="L1470">            final int searchLen = searchChars.length;</span>
+<span class="fc" id="L1471">            final int searchLast = searchLen - 1;</span>
+            outer:
+<span class="fc bfc" id="L1473" title="All 2 branches covered.">            for (int i = 0; i &lt; csLen; i++) {</span>
+<span class="fc" id="L1474">                final char ch = cs.charAt(i);</span>
+<span class="fc bfc" id="L1475" title="All 2 branches covered.">                for (int j = 0; j &lt; searchLen; j++) {</span>
+<span class="fc bfc" id="L1476" title="All 2 branches covered.">                    if (searchChars[j] == ch) {</span>
+<span class="pc bpc" id="L1477" title="1 of 6 branches missed.">                        if (i &lt; csLast &amp;&amp; j &lt; searchLast &amp;&amp; Character.isHighSurrogate(ch)) {</span>
+<span class="nc bnc" id="L1478" title="All 2 branches missed.">                            if (searchChars[j + 1] == cs.charAt(i + 1)) {</span>
+<span class="nc" id="L1479">                                continue outer;</span>
+                            }
+                        } else {
+                            continue outer;
+                        }
+                    }
+                }
+<span class="fc" id="L1486">                return i;</span>
+            }
+<span class="fc" id="L1488">            return INDEX_NOT_FOUND;</span>
+        }
+
+        /**
+         * &lt;p&gt;Search a CharSequence to find the first index of any
+         * character not in the given set of characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;A {@code null} CharSequence will return {@code -1}.
+         * A {@code null} or empty search string will return {@code -1}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.indexOfAnyBut(null, *)            = -1
+         * StringTools.indexOfAnyBut(&quot;&quot;, *)              = -1
+         * StringTools.indexOfAnyBut(*, null)            = -1
+         * StringTools.indexOfAnyBut(*, &quot;&quot;)              = -1
+         * StringTools.indexOfAnyBut(&quot;zzabyycdxx&quot;, &quot;za&quot;) = 3
+         * StringTools.indexOfAnyBut(&quot;zzabyycdxx&quot;, &quot;&quot;)   = -1
+         * StringTools.indexOfAnyBut(&quot;aba&quot;, &quot;ab&quot;)        = -1
+         * &lt;/pre&gt;
+         *
+         * @param seq         the CharSequence to check, may be null
+         * @param searchChars the chars to search for, may be null
+         * @return the index of any of the chars, -1 if no match or null input
+         */
+        public static int indexOfAnyBut(final CharSequence seq, final CharSequence searchChars) {
+<span class="fc bfc" id="L1513" title="All 4 branches covered.">            if (isEmpty(seq) || isEmpty(searchChars)) {</span>
+<span class="fc" id="L1514">                return INDEX_NOT_FOUND;</span>
+            }
+<span class="fc" id="L1516">            final int strLen = seq.length();</span>
+<span class="fc bfc" id="L1517" title="All 2 branches covered.">            for (int i = 0; i &lt; strLen; i++) {</span>
+<span class="fc" id="L1518">                final char ch = seq.charAt(i);</span>
+<span class="fc bfc" id="L1519" title="All 2 branches covered.">                final boolean chFound = CharSequenceTools.indexOf(searchChars, ch, 0) &gt;= 0;</span>
+<span class="pc bpc" id="L1520" title="1 of 4 branches missed.">                if (i + 1 &lt; strLen &amp;&amp; Character.isHighSurrogate(ch)) {</span>
+<span class="nc" id="L1521">                    final char ch2 = seq.charAt(i + 1);</span>
+<span class="nc bnc" id="L1522" title="All 4 branches missed.">                    if (chFound &amp;&amp; CharSequenceTools.indexOf(searchChars, ch2, 0) &lt; 0) {</span>
+<span class="nc" id="L1523">                        return i;</span>
+                    }
+                } else {
+<span class="fc bfc" id="L1526" title="All 2 branches covered.">                    if (!chFound) {</span>
+<span class="fc" id="L1527">                        return i;</span>
+                    }
+                }
+            }
+<span class="fc" id="L1531">            return INDEX_NOT_FOUND;</span>
+        }
+
+        /**
+         * &lt;p&gt;Compares all CharSequences in an array and returns the index at which the
+         * CharSequences begin to differ.&lt;/p&gt;
+         *
+         * &lt;p&gt;For example,
+         * {@code indexOfDifference(new String[] {&quot;i am a machine&quot;, &quot;i am a robot&quot;}) -&gt; 7}&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.indexOfDifference(null) = -1
+         * StringTools.indexOfDifference(new String[] {}) = -1
+         * StringTools.indexOfDifference(new String[] {&quot;abc&quot;}) = -1
+         * StringTools.indexOfDifference(new String[] {null, null}) = -1
+         * StringTools.indexOfDifference(new String[] {&quot;&quot;, &quot;&quot;}) = -1
+         * StringTools.indexOfDifference(new String[] {&quot;&quot;, null}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;abc&quot;, null, null}) = 0
+         * StringTools.indexOfDifference(new String[] {null, null, &quot;abc&quot;}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;&quot;, &quot;abc&quot;}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;abc&quot;, &quot;&quot;}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;abc&quot;, &quot;abc&quot;}) = -1
+         * StringTools.indexOfDifference(new String[] {&quot;abc&quot;, &quot;a&quot;}) = 1
+         * StringTools.indexOfDifference(new String[] {&quot;ab&quot;, &quot;abxyz&quot;}) = 2
+         * StringTools.indexOfDifference(new String[] {&quot;abcde&quot;, &quot;abxyz&quot;}) = 2
+         * StringTools.indexOfDifference(new String[] {&quot;abcde&quot;, &quot;xyz&quot;}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;xyz&quot;, &quot;abcde&quot;}) = 0
+         * StringTools.indexOfDifference(new String[] {&quot;i am a machine&quot;, &quot;i am a robot&quot;}) = 7
+         * &lt;/pre&gt;
+         *
+         * @param css array of CharSequences, entries may be null
+         * @return the index where the strings begin to differ; -1 if they are all equal
+         */
+        public static int indexOfDifference(final CharSequence... css) {
+<span class="fc bfc" id="L1565" title="All 2 branches covered.">            if (ArrayTools.getLength(css) &lt;= 1) {</span>
+<span class="fc" id="L1566">                return INDEX_NOT_FOUND;</span>
+            }
+<span class="fc" id="L1568">            boolean anyStringNull = false;</span>
+<span class="fc" id="L1569">            boolean allStringsNull = true;</span>
+<span class="fc" id="L1570">            final int arrayLen = css.length - 1;</span>
+<span class="fc" id="L1571">            int shortestStrLen = Integer.MAX_VALUE;</span>
+<span class="fc" id="L1572">            int longestStrLen = 0;</span>
+
+            // find the min and max string lengths; this avoids checking to make
+            // sure we are not exceeding the length of the string each time through
+            // the bottom loop.
+<span class="fc bfc" id="L1577" title="All 2 branches covered.">            for (final CharSequence cs : css) {</span>
+<span class="pc bpc" id="L1578" title="1 of 2 branches missed.">                if (cs == null) {</span>
+<span class="nc" id="L1579">                    anyStringNull = true;</span>
+<span class="nc" id="L1580">                    shortestStrLen = 0;</span>
+<span class="nc" id="L1581">                } else {</span>
+<span class="fc" id="L1582">                    allStringsNull = false;</span>
+<span class="fc" id="L1583">                    shortestStrLen = Math.min(cs.length(), shortestStrLen);</span>
+<span class="fc" id="L1584">                    longestStrLen = Math.max(cs.length(), longestStrLen);</span>
+                }
+            }
+
+            // handle lists containing all nulls or all empty strings
+<span class="pc bpc" id="L1589" title="4 of 6 branches missed.">            if (allStringsNull || longestStrLen == 0 &amp;&amp; !anyStringNull) {</span>
+<span class="nc" id="L1590">                return INDEX_NOT_FOUND;</span>
+            }
+
+            // handle lists containing some nulls or some empty strings
+<span class="fc bfc" id="L1594" title="All 2 branches covered.">            if (shortestStrLen == 0) {</span>
+<span class="fc" id="L1595">                return 0;</span>
+            }
+
+            // find the position with the first difference across all strings
+<span class="fc" id="L1599">            int firstDiff = -1;</span>
+<span class="pc bpc" id="L1600" title="1 of 2 branches missed.">            for (int stringPos = 0; stringPos &lt; shortestStrLen; stringPos++) {</span>
+<span class="fc" id="L1601">                final char comparisonChar = css[0].charAt(stringPos);</span>
+<span class="pc bpc" id="L1602" title="1 of 2 branches missed.">                for (int arrayPos = 1; arrayPos &lt; arrayLen; arrayPos++) {</span>
+<span class="pc bpc" id="L1603" title="1 of 2 branches missed.">                    if (css[arrayPos].charAt(stringPos) != comparisonChar) {</span>
+<span class="fc" id="L1604">                        firstDiff = stringPos;</span>
+<span class="fc" id="L1605">                        break;</span>
+                    }
+                }
+<span class="pc bpc" id="L1608" title="1 of 2 branches missed.">                if (firstDiff != -1) {</span>
+<span class="fc" id="L1609">                    break;</span>
+                }
+            }
+
+<span class="pc bpc" id="L1613" title="3 of 4 branches missed.">            if (firstDiff == -1 &amp;&amp; shortestStrLen != longestStrLen) {</span>
+                // we compared all of the characters up to the length of the
+                // shortest string and didn't find a match, but the string lengths
+                // vary, so return the length of the shortest string.
+<span class="nc" id="L1617">                return shortestStrLen;</span>
+            }
+<span class="fc" id="L1619">            return firstDiff;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if the CharSequence contains only Unicode digits.
+         * A decimal point is not a Unicode digit and returns false.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null} will return {@code false}.
+         * An empty CharSequence (length()=0) will return {@code false}.&lt;/p&gt;
+         *
+         * &lt;p&gt;Note that the method does not allow for a leading sign, either positive or negative.
+         * Also, if a String passes the numeric test, it may still generate a NumberFormatException
+         * when parsed by Integer.parseInt or Long.parseLong, e.g. if the value is outside the range
+         * for int or long respectively.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringUtils.isNumeric(null)   = false
+         * StringUtils.isNumeric(&quot;&quot;)     = false
+         * StringUtils.isNumeric(&quot;  &quot;)   = false
+         * StringUtils.isNumeric(&quot;123&quot;)  = true
+         * StringUtils.isNumeric(&quot;\u0967\u0968\u0969&quot;)  = true
+         * StringUtils.isNumeric(&quot;12 3&quot;) = false
+         * StringUtils.isNumeric(&quot;ab2c&quot;) = false
+         * StringUtils.isNumeric(&quot;12-3&quot;) = false
+         * StringUtils.isNumeric(&quot;12.3&quot;) = false
+         * StringUtils.isNumeric(&quot;-123&quot;) = false
+         * StringUtils.isNumeric(&quot;+123&quot;) = false
+         * &lt;/pre&gt;
+         *
+         * @param cs the CharSequence to check, may be null
+         * @return {@code true} if only contains digits, and is non-null
+         * @since 3.0 Changed signature from isNumeric(String) to isNumeric(CharSequence)
+         * @since 3.0 Changed &quot;&quot; to return false and not true
+         */
+        public static boolean isNumeric(final CharSequence cs) {
+<span class="fc bfc" id="L1654" title="All 2 branches covered.">            if (isEmpty(cs)) {</span>
+<span class="fc" id="L1655">                return false;</span>
+            }
+<span class="fc" id="L1657">            final int sz = cs.length();</span>
+<span class="pc bpc" id="L1658" title="1 of 2 branches missed.">            for (int i = 0; i &lt; sz; i++) {</span>
+<span class="pc bpc" id="L1659" title="1 of 2 branches missed.">                if (!Character.isDigit(cs.charAt(i))) {</span>
+<span class="fc" id="L1660">                    return false;</span>
+                }
+            }
+<span class="nc" id="L1663">            return true;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if the CharSequence contains only lowercase characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null} will return {@code false}.
+         * An empty CharSequence (length()=0) will return {@code false}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.isAllLowerCase(null)   = false
+         * StringTools.isAllLowerCase(&quot;&quot;)     = false
+         * StringTools.isAllLowerCase(&quot;  &quot;)   = false
+         * StringTools.isAllLowerCase(&quot;abc&quot;)  = true
+         * StringTools.isAllLowerCase(&quot;abC&quot;)  = false
+         * StringTools.isAllLowerCase(&quot;ab c&quot;) = false
+         * StringTools.isAllLowerCase(&quot;ab1c&quot;) = false
+         * StringTools.isAllLowerCase(&quot;ab/c&quot;) = false
+         * &lt;/pre&gt;
+         *
+         * @param cs the CharSequence to check, may be null
+         * @return {@code true} if only contains lowercase characters, and is non-null
+         */
+        public static boolean isAllLowerCase(final CharSequence cs) {
+<span class="fc bfc" id="L1687" title="All 2 branches covered.">            if (isEmpty(cs)) {</span>
+<span class="fc" id="L1688">                return false;</span>
+            }
+<span class="fc" id="L1690">            final int sz = cs.length();</span>
+<span class="pc bpc" id="L1691" title="1 of 2 branches missed.">            for (int i = 0; i &lt; sz; i++) {</span>
+<span class="fc bfc" id="L1692" title="All 2 branches covered.">                if (!Character.isLowerCase(cs.charAt(i))) {</span>
+<span class="fc" id="L1693">                    return false;</span>
+                }
+            }
+<span class="nc" id="L1696">            return true;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if the CharSequence contains only uppercase characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null} will return {@code false}.
+         * An empty String (length()=0) will return {@code false}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.isAllUpperCase(null)   = false
+         * StringTools.isAllUpperCase(&quot;&quot;)     = false
+         * StringTools.isAllUpperCase(&quot;  &quot;)   = false
+         * StringTools.isAllUpperCase(&quot;ABC&quot;)  = true
+         * StringTools.isAllUpperCase(&quot;aBC&quot;)  = false
+         * StringTools.isAllUpperCase(&quot;A C&quot;)  = false
+         * StringTools.isAllUpperCase(&quot;A1C&quot;)  = false
+         * StringTools.isAllUpperCase(&quot;A/C&quot;)  = false
+         * &lt;/pre&gt;
+         *
+         * @param cs the CharSequence to check, may be null
+         * @return {@code true} if only contains uppercase characters, and is non-null
+         */
+        public static boolean isAllUpperCase(final CharSequence cs) {
+<span class="fc bfc" id="L1720" title="All 2 branches covered.">            if (isEmpty(cs)) {</span>
+<span class="fc" id="L1721">                return false;</span>
+            }
+<span class="fc" id="L1723">            final int sz = cs.length();</span>
+<span class="pc bpc" id="L1724" title="1 of 2 branches missed.">            for (int i = 0; i &lt; sz; i++) {</span>
+<span class="pc bpc" id="L1725" title="1 of 2 branches missed.">                if (!Character.isUpperCase(cs.charAt(i))) {</span>
+<span class="fc" id="L1726">                    return false;</span>
+                }
+            }
+<span class="nc" id="L1729">            return true;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if a CharSequence is empty (&quot;&quot;) or null.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.isEmpty(null)      = true
+         * StringTools.isEmpty(&quot;&quot;)        = true
+         * StringTools.isEmpty(&quot; &quot;)       = false
+         * StringTools.isEmpty(&quot;bob&quot;)     = false
+         * StringTools.isEmpty(&quot;  bob  &quot;) = false
+         * &lt;/pre&gt;
+         * &lt;p&gt;
+         * &lt;p&gt;
+         * It no longer trims the CharSequence.
+         * That functionality is available in isBlank().&lt;/p&gt;
+         *
+         * @param cs the CharSequence to check, may be null
+         * @return {@code true} if the CharSequence is empty or null
+         */
+        public static boolean isEmpty(final CharSequence cs) {
+<span class="fc bfc" id="L1751" title="All 4 branches covered.">            return cs == null || cs.length() == 0;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks if the CharSequence contains mixed casing of both uppercase and lowercase characters.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null} will return {@code false}. An empty CharSequence ({@code length()=0}) will return
+         * {@code false}.&lt;/p&gt;
+         *
+         * &lt;pre&gt;
+         * StringTools.isMixedCase(null)    = false
+         * StringTools.isMixedCase(&quot;&quot;)      = false
+         * StringTools.isMixedCase(&quot;ABC&quot;)   = false
+         * StringTools.isMixedCase(&quot;abc&quot;)   = false
+         * StringTools.isMixedCase(&quot;aBc&quot;)   = true
+         * StringTools.isMixedCase(&quot;A c&quot;)   = true
+         * StringTools.isMixedCase(&quot;A1c&quot;)   = true
+         * StringTools.isMixedCase(&quot;a/C&quot;)   = true
+         * StringTools.isMixedCase(&quot;aC\t&quot;)  = true
+         * &lt;/pre&gt;
+         *
+         * @param cs the CharSequence to check, may be null
+         * @return {@code true} if the CharSequence contains both uppercase and lowercase characters
+         */
+        public static boolean isMixedCase(final CharSequence cs) {
+<span class="fc bfc" id="L1776" title="All 4 branches covered.">            if (isEmpty(cs) || cs.length() == 1) {</span>
+<span class="fc" id="L1777">                return false;</span>
+            }
+<span class="fc" id="L1779">            boolean containsUppercase = false;</span>
+<span class="fc" id="L1780">            boolean containsLowercase = false;</span>
+<span class="fc" id="L1781">            final int sz = cs.length();</span>
+<span class="fc bfc" id="L1782" title="All 2 branches covered.">            for (int i = 0; i &lt; sz; i++) {</span>
+<span class="pc bpc" id="L1783" title="3 of 4 branches missed.">                if (containsUppercase &amp;&amp; containsLowercase) {</span>
+<span class="nc" id="L1784">                    return true;</span>
+<span class="pc bpc" id="L1785" title="1 of 2 branches missed.">                } else if (Character.isUpperCase(cs.charAt(i))) {</span>
+<span class="nc" id="L1786">                    containsUppercase = true;</span>
+<span class="pc bfc" id="L1787" title="All 2 branches covered.">                } else if (Character.isLowerCase(cs.charAt(i))) {</span>
+<span class="fc" id="L1788">                    containsLowercase = true;</span>
+                }
+            }
+<span class="pc bpc" id="L1791" title="3 of 4 branches missed.">            return containsUppercase &amp;&amp; containsLowercase;</span>
+        }
+
+        /**
+         * &lt;p&gt;Checks whether the String a valid Java number.&lt;/p&gt;
+         *
+         * &lt;p&gt;Valid numbers include hexadecimal marked with the {@code 0x} or
+         * {@code 0X} qualifier, octal numbers, scientific notation and
+         * numbers marked with a type qualifier (e.g. 123L).&lt;/p&gt;
+         *
+         * &lt;p&gt;Non-hexadecimal strings beginning with a leading zero are
+         * treated as octal values. Thus the string {@code 09} will return
+         * {@code false}, since {@code 9} is not a valid octal value.
+         * However, numbers beginning with {@code 0.} are treated as decimal.&lt;/p&gt;
+         *
+         * &lt;p&gt;{@code null} and empty/blank {@code String} will return
+         * {@code false}.&lt;/p&gt;
+         *
+         * @param str the {@code String} to check
+         * @return {@code true} if the string is a correctly formatted number
+         * @since 3.5
+         */
+        public static boolean isCreatable(final String str) {
+<span class="fc bfc" id="L1814" title="All 2 branches covered.">            if (StringTools.isEmpty(str)) {</span>
+<span class="fc" id="L1815">                return false;</span>
+            }
+<span class="fc" id="L1817">            final char[] chars = str.toCharArray();</span>
+<span class="fc" id="L1818">            int sz = chars.length;</span>
+<span class="fc" id="L1819">            boolean hasExp = false;</span>
+<span class="fc" id="L1820">            boolean hasDecPoint = false;</span>
+<span class="fc" id="L1821">            boolean allowSigns = false;</span>
+<span class="fc" id="L1822">            boolean foundDigit = false;</span>
+            // deal with any possible sign up front
+<span class="pc bpc" id="L1824" title="2 of 4 branches missed.">            final int start = chars[0] == '-' || chars[0] == '+' ? 1 : 1;</span>
+<span class="pc bpc" id="L1825" title="3 of 6 branches missed.">            if (sz &gt; start + 1 &amp;&amp; chars[start] == '0' &amp;&amp; !StringTools.contains(str, '.')) { // leading 0, skip if is a</span>
+                // decimal number
+<span class="nc bnc" id="L1827" title="All 4 branches missed.">                if (chars[start + 1] == 'x' || chars[start + 1] == 'X') { // leading 0x/0X</span>
+<span class="nc" id="L1828">                    int i = start + 2;</span>
+<span class="nc bnc" id="L1829" title="All 2 branches missed.">                    if (i == sz) {</span>
+<span class="nc" id="L1830">                        return false; // str == &quot;0x&quot;</span>
+                    }
+                    // checking hex (it can't be anything else)
+<span class="nc bnc" id="L1833" title="All 2 branches missed.">                    for (; i &lt; chars.length; i++) {</span>
+<span class="nc bnc" id="L1834" title="All 4 branches missed.">                        if ((chars[i] &lt; '0' || chars[i] &gt; '9')</span>
+<span class="nc bnc" id="L1835" title="All 4 branches missed.">                            &amp;&amp; (chars[i] &lt; 'a' || chars[i] &gt; 'f')</span>
+<span class="nc bnc" id="L1836" title="All 4 branches missed.">                            &amp;&amp; (chars[i] &lt; 'A' || chars[i] &gt; 'F')) {</span>
+<span class="nc" id="L1837">                            return false;</span>
+                        }
+                    }
+<span class="nc" id="L1840">                    return true;</span>
+<span class="nc bnc" id="L1841" title="All 2 branches missed.">                } else if (Character.isDigit(chars[start + 1])) {</span>
+                    // leading 0, but not hex, must be octal
+<span class="nc" id="L1843">                    int i = start + 1;</span>
+<span class="nc bnc" id="L1844" title="All 2 branches missed.">                    for (; i &lt; chars.length; i++) {</span>
+<span class="nc bnc" id="L1845" title="All 4 branches missed.">                        if (chars[i] &lt; '0' || chars[i] &gt; '7') {</span>
+<span class="nc" id="L1846">                            return false;</span>
+                        }
+                    }
+<span class="nc" id="L1849">                    return true;</span>
+                }
+            }
+<span class="fc" id="L1852">            sz--; // don't want to loop to the last char, check it afterwords</span>
+            // for type qualifiers
+<span class="fc" id="L1854">            int i = start;</span>
+            // loop to the next to last char or to the last char if we need another digit to
+            // make a valid number (e.g. chars[0..5] = &quot;1234E&quot;)
+<span class="pc bpc" id="L1857" title="3 of 8 branches missed.">            while (i &lt; sz || i &lt; sz + 1 &amp;&amp; allowSigns &amp;&amp; !foundDigit) {</span>
+<span class="pc bpc" id="L1858" title="1 of 4 branches missed.">                if (chars[i] &gt;= '0' &amp;&amp; chars[i] &lt;= '9') {</span>
+<span class="nc" id="L1859">                    foundDigit = true;</span>
+<span class="nc" id="L1860">                    allowSigns = false;</span>
+
+<span class="pc bpc" id="L1862" title="1 of 2 branches missed.">                } else if (chars[i] == '.') {</span>
+<span class="nc bnc" id="L1863" title="All 4 branches missed.">                    if (hasDecPoint || hasExp) {</span>
+                        // two decimal points or dec in exponent
+<span class="nc" id="L1865">                        return false;</span>
+                    }
+<span class="nc" id="L1867">                    hasDecPoint = true;</span>
+<span class="pc bpc" id="L1868" title="2 of 4 branches missed.">                } else if (chars[i] == 'e' || chars[i] == 'E') {</span>
+                    // we've already taken care of hex.
+<span class="nc bnc" id="L1870" title="All 2 branches missed.">                    if (hasExp) {</span>
+                        // two E's
+<span class="nc" id="L1872">                        return false;</span>
+                    }
+<span class="nc bnc" id="L1874" title="All 2 branches missed.">                    if (!foundDigit) {</span>
+<span class="nc" id="L1875">                        return false;</span>
+                    }
+<span class="nc" id="L1877">                    hasExp = true;</span>
+<span class="nc" id="L1878">                    allowSigns = true;</span>
+<span class="pc bpc" id="L1879" title="2 of 4 branches missed.">                } else if (chars[i] == '+' || chars[i] == '-') {</span>
+<span class="nc bnc" id="L1880" title="All 2 branches missed.">                    if (!allowSigns) {</span>
+<span class="nc" id="L1881">                        return false;</span>
+                    }
+<span class="nc" id="L1883">                    allowSigns = false;</span>
+<span class="nc" id="L1884">                    foundDigit = false; // we need a digit after the E</span>
+<span class="nc" id="L1885">                } else {</span>
+<span class="fc" id="L1886">                    return false;</span>
+                }
+<span class="nc" id="L1888">                i++;</span>
+            }
+<span class="fc bfc" id="L1890" title="All 2 branches covered.">            if (i &lt; chars.length) {</span>
+<span class="pc bpc" id="L1891" title="3 of 4 branches missed.">                if (chars[i] &gt;= '0' &amp;&amp; chars[i] &lt;= '9') {</span>
+                    // no type qualifier, OK
+<span class="nc" id="L1893">                    return true;</span>
+                }
+<span class="pc bpc" id="L1895" title="2 of 4 branches missed.">                if (chars[i] == 'e' || chars[i] == 'E') {</span>
+                    // can't have an E at the last byte
+<span class="nc" id="L1897">                    return false;</span>
+                }
+<span class="pc bpc" id="L1899" title="1 of 2 branches missed.">                if (chars[i] == '.') {</span>
+<span class="nc bnc" id="L1900" title="All 4 branches missed.">                    if (hasDecPoint || hasExp) {</span>
+                        // two decimal points or dec in exponent
+<span class="nc" id="L1902">                        return false;</span>
+                    }
+                    // single trailing decimal point after non-exponent is ok
+<span class="nc" id="L1905">                    return foundDigit;</span>
+                }
+<span class="pc bpc" id="L1907" title="1 of 2 branches missed.">                if (!allowSigns</span>
+<span class="pc bpc" id="L1908" title="1 of 2 branches missed.">                    &amp;&amp; (chars[i] == 'd'</span>
+<span class="pc bpc" id="L1909" title="1 of 2 branches missed.">                    || chars[i] == 'D'</span>
+<span class="pc bpc" id="L1910" title="1 of 2 branches missed.">                    || chars[i] == 'f'</span>
+<span class="pc bpc" id="L1911" title="1 of 2 branches missed.">                    || chars[i] == 'F')) {</span>
+<span class="nc" id="L1912">                    return foundDigit;</span>
+                }
+<span class="pc bpc" id="L1914" title="1 of 2 branches missed.">                if (chars[i] == 'l'</span>
+<span class="pc bpc" id="L1915" title="1 of 2 branches missed.">                    || chars[i] == 'L') {</span>
+                    // not allowing L with an exponent or decimal point
+<span class="nc bnc" id="L1917" title="All 6 branches missed.">                    return foundDigit &amp;&amp; !hasExp &amp;&amp; !hasDecPoint;</span>
+                }
+                // last character is illegal
+<span class="fc" id="L1920">                return false;</span>
+            }
+            // allowSigns is true iff the val ends in 'E'
+            // found digit it to make sure weird stuff like '.' and '1E-' doesn't pass
+<span class="pc bpc" id="L1924" title="2 of 4 branches missed.">            return !allowSigns &amp;&amp; foundDigit;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span>randoop3 (Mar 1, 2021 5:42:46 PM)</div></body></html>
