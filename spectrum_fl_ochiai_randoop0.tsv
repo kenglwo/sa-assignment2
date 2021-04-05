@@ -1,57 +1,57 @@
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	$stack2 = 0	0.87	6	1354	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	$stack2 = 0	0.87	6	1354	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	$stack2 = 0	0.87	6	1354	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	$stack2 = 0	0.87	6	1354	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	$stack2 = 0	0.87	6	1354	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.87	6	1353	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isMixedCase(java.lang.CharSequence)>	$stack5 = staticinvoke <comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>(cs)	0.75	12	1350	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	if cs != null goto $stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1569	
-<comp5111.assignment.cut.ToolBox$StringTools: int length(java.lang.CharSequence)>	$stack1 = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.71	18	1570	
-<comp5111.assignment.cut.ToolBox$CharSequenceTools: int lastIndexOf(java.lang.CharSequence,java.lang.CharSequence,int)>	$stack50 = (java.lang.String) searchChar	0.67	25	1566	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	if $stack1 != 0 goto $stack2 = 0	0.59	26	252	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	ch = interfaceinvoke cs.<java.lang.CharSequence: char charAt(int)>(i)	0.5	27	1431	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	i = 0	0.35	28	1429	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	ch = interfaceinvoke cs.<java.lang.CharSequence: char charAt(int)>(i)	0.5	27	1431	
-<comp5111.assignment.cut.ToolBox$RegExTools: java.lang.String replaceAll(java.lang.String,java.util.regex.Pattern,java.lang.String)>	if text == null goto return text	0.29	30	290	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean isCreatable(java.lang.String)>	return 0	0.28	31	287	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	if $stack1 != 0 goto $stack2 = 0	0.19	35	1421	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	$stack2 = 0	0.19	35	1422	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	if $stack1 != 0 goto $stack2 = 0	0.19	35	1421	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	$stack2 = 0	0.19	35	1422	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	if $stack1 != 0 goto $stack2 = 0	0.19	35	1421	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	$stack2 = 0	0.19	35	1422	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	if $stack1 != 0 goto $stack2 = 0	0.19	35	1421	
-<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	$stack2 = 0	0.19	35	1422	
-<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	if array != null goto $stack1 = staticinvoke <java.lang.reflect.Array: int getLength(java.lang.Object)>(array)	0.18	40	1418	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if j >= searchLength goto i = i + 1	0.11	42	1257	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if j >= searchLength goto i = i + 1	0.11	42	1267	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if j >= searchLength goto i = i + 1	0.11	42	1257	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if $stack13 != ch goto j = j + 1	0.1	44	199	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	j = j + 1	0.08	45	1162	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if j >= searchLength goto i = i + 1	0.07	46	1272	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	csLast = csLength - 1	0.06	51	1246	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if i >= csLength goto return 0	0.06	51	1249	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	csLast = csLength - 1	0.06	51	1246	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if i >= csLength goto return 0	0.06	51	1249	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	csLast = csLength - 1	0.06	51	1246	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if i >= csLength goto return 0	0.06	51	1249	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	csLast = csLength - 1	0.06	51	1246	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if i >= csLength goto return 0	0.06	51	1249	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	csLast = csLength - 1	0.06	51	1246	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if i >= csLength goto return 0	0.06	51	1249	
-<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if $stack13 != ch goto j = j + 1	0.05	57	1161	
+<comp5111.assignment.cut.ToolBox$StringTools: java.lang.String getCommonPrefix(java.lang.String[])>	smallestIndexOfDiff = staticinvoke <comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>(strs)	0.87	6	1352	
+<comp5111.assignment.cut.ToolBox$StringTools: java.lang.String getCommonPrefix(java.lang.String[])>	if smallestIndexOfDiff != -1 goto (branch)	0.87	6	1353	
+<comp5111.assignment.cut.ToolBox$StringTools: java.lang.String getCommonPrefix(java.lang.String[])>	if smallestIndexOfDiff != 0 goto $stack4 = strs[0]	0.87	6	1359	
+<comp5111.assignment.cut.ToolBox$StringTools: java.lang.String getCommonPrefix(java.lang.String[])>	return $stack5	0.87	6	1364	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	firstDiff#9 = -1	0.87	6	1599	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if stringPos >= shortestStrLen goto (branch)	0.87	6	1600	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	comparisonChar#11 = interfaceinvoke $stack13.<java.lang.CharSequence: char charAt(int)>(stringPos)	0.87	6	1601	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if cs#12 >= arrayLen goto (branch)	0.87	6	1602	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if firstDiff#9 == -1 goto stringPos = stringPos + 1	0.87	6	1608	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if shortestStrLen == longestStrLen goto return firstDiff#9	0.87	6	1613	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	return shortestStrLen	0.87	6	1617	
+<comp5111.assignment.cut.ToolBox$StringTools: java.lang.String getCommonPrefix(java.lang.String[])>	if $stack2 == 0 goto smallestIndexOfDiff = staticinvoke <comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>(strs)	0.75	12	1349	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	anyStringNull = 0	0.71	18	1568	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	allStringsNull = 1	0.71	18	1569	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	arrayLen = $stack11 - 1	0.71	18	1570	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	shortestStrLen = 2147483647	0.71	18	1571	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	longestStrLen = 0	0.71	18	1572	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if comparisonChar >= stringPos goto (branch)	0.71	18	1577	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if cs != null goto allStringsNull = 0	0.71	18	1578	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	allStringsNull = 0	0.71	18	1582	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	shortestStrLen = staticinvoke <java.lang.Math: int min(int,int)>($stack27, shortestStrLen)	0.71	18	1583	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	longestStrLen = staticinvoke <java.lang.Math: int max(int,int)>($stack29, longestStrLen)	0.71	18	1584	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if longestStrLen != 0 goto (branch)	0.71	18	1589	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if shortestStrLen != 0 goto firstDiff#9 = -1	0.71	18	1594	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfDifference(java.lang.CharSequence[])>	if $stack10 > 1 goto anyStringNull = 0	0.67	25	1565	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(java.lang.Object[])>	return $stack2	0.59	26	251	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if $stack21 != $stack22 goto j = j + 1	0.5	27	1430	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if $stack18 == 0 goto return i	0.35	28	1428	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	return i	0.35	28	1434	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	return $stack1	0.29	30	289	
+<comp5111.assignment.cut.ToolBox$ArrayTools: int getLength(java.lang.Object)>	if array != null goto $stack1 = staticinvoke <java.lang.reflect.Array: int getLength(java.lang.Object)>(array)	0.28	31	286	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	csLen = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.19	35	1420	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	csLast = csLen - 1	0.19	35	1421	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	searchLen = lengthof searchChars	0.19	35	1422	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	searchLast = searchLen - 1	0.19	35	1423	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if i >= csLen goto return -1	0.19	35	1424	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	ch = interfaceinvoke cs.<java.lang.CharSequence: char charAt(int)>(i)	0.19	35	1425	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if j >= searchLen goto i = i + 1	0.19	35	1426	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if $stack15 != ch goto j = j + 1	0.19	35	1427	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	if $stack10 == 0 goto csLen = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.18	40	1417	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if $stack16 == 0 goto return 0	0.11	42	1256	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	return 0	0.11	42	1266	
+<comp5111.assignment.cut.ToolBox$StringTools: int indexOfAny(java.lang.CharSequence,char[])>	return -1	0.11	42	1439	
+<comp5111.assignment.cut.ToolBox$ArrayTools: boolean isEmpty(char[])>	return $stack2	0.1	44	198	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	return 0	0.08	45	1161	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	return 1	0.07	46	1271	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if searchChars != null goto csLen = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.06	51	1245	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	csLen = interfaceinvoke cs.<java.lang.CharSequence: int length()>()	0.06	51	1248	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	csLast = csLen - 1	0.06	51	1249	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	searchLen = lengthof searchChars	0.06	51	1250	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	searchLast = searchLen - 1	0.06	51	1251	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if i >= csLen goto return 1	0.06	51	1252	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	ch = interfaceinvoke cs.<java.lang.CharSequence: char charAt(int)>(i)	0.06	51	1253	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if j >= searchLen goto i = i + 1	0.06	51	1254	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsNone(java.lang.CharSequence,char[])>	if $stack13 != ch goto j = j + 1	0.06	51	1255	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean isEmpty(java.lang.CharSequence)>	return $stack2	0.06	51	1751	
+<comp5111.assignment.cut.ToolBox$StringTools: boolean containsAny(java.lang.CharSequence,char[])>	if $stack9 != 0 goto return 0	0.05	57	1160	

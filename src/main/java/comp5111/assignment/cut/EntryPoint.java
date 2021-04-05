@@ -190,9 +190,10 @@ public class EntryPoint {
           out += scoreOfLineNumber.get(index) + "\t";
           out += "\n";
           output += out;
-          System.out.println(out);
+          // System.out.println(out);
           }
 
+        System.out.println(output);
         String fileName = "";
         switch(testIndex){
           case 0:
