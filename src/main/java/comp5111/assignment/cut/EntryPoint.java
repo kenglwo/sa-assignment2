@@ -179,8 +179,6 @@ public class EntryPoint {
         // System.out.println(Arrays.toString(indexList.toArray()));
 
 
-        // ########################################################################
-        // for(int i=0; i<methodSignatureList.size(); i++){
         String output = "";
         for(int i=0; i<indexList.size(); i++){
           int index = indexList.get(i);
@@ -195,60 +193,34 @@ public class EntryPoint {
           System.out.println(out);
           }
 
-        // String fileName = "";
-        // switch(testIndex){
-        //   case 0:
-        //     fileName = "spectrum_fl_ochiai_randoop0.tsv";
-        //     break;
-        //   case 1:
-        //     fileName = "spectrum_fl_ochiai_randoop1.tsv";
-        //     break;
-        //   case 2:
-        //     fileName = "spectrum_fl_ochiai_randoop2.tsv";
-        //     break;
-        //   case 3:
-        //     fileName = "spectrum_fl_ochiai_evosuite0.tsv";
-        //     break;
-        //   case 4:
-        //     fileName = "spectrum_fl_ochiai_evosuite1.tsv";
-        //     break;
-        //   case 5:
-        //     fileName = "spectrum_fl_ochiai_evosuite2.tsv";
-        //     break;
-        // }
-        // try {
-        //   FileWriter fw = new FileWriter(fileName);
-        //   fw.write(output);
-        //   fw.close();
-        // } catch (IOException ex) {
-        //     ex.printStackTrace();
-        // }
-        // ########################################################################
-
-        // double[] sortedScoreArray = Counter.scoreArray.clone();
-        // Arrays.sort(sortedScoreArray);
-
-        // for(int i=0; i<Counter.scoreArray.length; i++){
-        //   double score = Counter.scoreArray[i];
-        //   int s = 0;
-        //   int n = 0;   // # of statements higher than a
-        //   for (int j=0; j<sortedScoreArray.length; j++){
-        //     if(Counter.scoreArray[i] < sortedScoreArray[j]){
-        //       // contitue;
-        //     } else if(Counter.scoreArray[i] == sortedScoreArray[j]) {
-        //       s += 1; // # of the same ones
-        //     } else {
-        //       n = sortedScoreArray.length - j + 1;
-        //       break;
-        //     }
-        //   }
-        //   int m = n + s;   // # of statements higher or equal to a
-        //   Counter.rankArray[i] = (n+m+1) / 2;
-        // }
-
-        // System.out.println(Arrays.toString(Counter.scoreArray));
-        // System.out.println("################################");
-        // System.out.println(Arrays.toString(Counter.rankArray));
+        String fileName = "";
+        switch(testIndex){
+          case 0:
+            fileName = "spectrum_fl_ochiai_randoop0.tsv";
+            break;
+          case 1:
+            fileName = "spectrum_fl_ochiai_randoop1.tsv";
+            break;
+          case 2:
+            fileName = "spectrum_fl_ochiai_randoop2.tsv";
+            break;
+          case 3:
+            fileName = "spectrum_fl_ochiai_evosuite0.tsv";
+            break;
+          case 4:
+            fileName = "spectrum_fl_ochiai_evosuite1.tsv";
+            break;
+          case 5:
+            fileName = "spectrum_fl_ochiai_evosuite2.tsv";
+            break;
+        }
+        try {
+          FileWriter fw = new FileWriter(fileName);
+          fw.write(output);
+          fw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static void instrumentWithSoot(String[] classNames) {
