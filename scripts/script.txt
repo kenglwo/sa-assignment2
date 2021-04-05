@@ -8,9 +8,9 @@
  javac -d target\classes -g -classpath .;.\lib\*;src\main\java src\main\java\comp5111\assignment\Assignment2.java
 
 # compile test suites
-javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop0\comp5111\assignment\cut\Regression_15_Test0.java
-javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
-javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java .\src\test\fault-revealing-randoop0\comp5111\assignment\cut\Regression_15_Test.java .\src\test\fault-revealing-randoop0\comp5111\assignment\cut\Regression_15_Test0.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop1\comp5111\assignment\cut\Regression_4_Test.java src\test\fault-revealing-randoop1\comp5111\assignment\cut\Regression_4_Test0.java
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test.java  src\test\fault-revealing-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
 
 javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revealing-evosuite0 src\test\fault-revealing-evosuite0\comp5111\assignment\cut\ToolBox_FaultRevealing0_ESTest.java
 javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revealing-evosuite1 src\test\fault-revealing-evosuite1\comp5111\assignment\cut\ToolBox_FaultRevealing1_ESTest.java

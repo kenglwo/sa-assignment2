@@ -11,14 +11,14 @@ public class Instrumenter extends BodyTransformer {
 
     /* some internal fields */
     static SootClass counterClass;
-    static SootMethod addNumTest, addNumTestFailed, addToLineNumberWorkArray, addMethodSignature, addStatement;
+    static SootMethod addNumTestPassed, addNumTestFailed, addToLineNumberWorkArray, addMethodSignature, addStatement;
 
     static {
         counterClass = Scene.v().loadClassAndSupport("comp5111.assignment.cut.Counter");
-        addNumTest = counterClass.getMethod("void addNumTest(int)");
+        addNumTestPassed = counterClass.getMethod("void addNumTestPassed(int)");
         addNumTestFailed = counterClass.getMethod("void addNumTestFailed(int)");
         addToLineNumberWorkArray = counterClass.getMethod("void addToLineNumberWorkArray(int)");
-        // addMethodSignature = counterClass.getMethod("void addMethodSignature(string)");
+        // addMethodSignature = counterClass.getMethod("void addMethodSignature(int, String)");
         addMethodSignature = counterClass.getMethodByName("addMethodSignature");
         // addStatement = counterClass.getMethod("void addStatement(string)");
         addStatement = counterClass.getMethodByName("addStatement");
@@ -51,19 +51,22 @@ public class Instrumenter extends BodyTransformer {
 
         //     // cast back to a statement.
             Stmt stmt = (Stmt) stmtIt.next();
+
             int lineNumber = stmt.getJavaSourceStartLineNumber();
             String stmtStr = String.valueOf(stmt);
-            // System.out.println(stmtStr);
 
             if (stmt instanceof Stmt && lineNumber != -1) {
+            // if (stmt instanceof Stmt) {
 
                 InvokeExpr invoke1 = null;
-                invoke1 = Jimple.v().newStaticInvokeExpr(addMethodSignature.makeRef(), StringConstant.v(methodSignature));
+                // invoke1 = Jimple.v().newStaticInvokeExpr(addMethodSignature.makeRef(), IntConstant.v(lineNumber), StringConstant.v(methodSignature));
+                invoke1 = Jimple.v().newStaticInvokeExpr(addMethodSignature.makeRef(),  IntConstant.v(lineNumber), StringConstant.v(methodSignature));
                 Stmt methodStmt = Jimple.v().newInvokeStmt(invoke1);
                 units.insertBefore(methodStmt, stmt);
 
                 InvokeExpr invoke2 = null;
-                invoke2 = Jimple.v().newStaticInvokeExpr(addStatement.makeRef(), StringConstant.v(stmtStr));
+                invoke2 = Jimple.v().newStaticInvokeExpr(addStatement.makeRef(), IntConstant.v(lineNumber), StringConstant.v(stmtStr));
+                // invoke2 = Jimple.v().newStaticInvokeExpr(addStatement.makeRef(), StringConstant.v(stmtStr));
                 Stmt statementStmt = Jimple.v().newInvokeStmt(invoke2);
                 units.insertBefore(statementStmt, stmt);
 

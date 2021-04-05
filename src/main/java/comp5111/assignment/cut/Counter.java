@@ -5,15 +5,18 @@ public class Counter {
     private static int numStaticInvocations = 0;
     private static int numInstanceInvocations = 0;
 
-    private static int numTest = 0;
+    private static int numTestPassed = 0;
     private static int numTestFailed = 0;
 
     private static int[] passedLineArray = new int[1930];
     private static int[] failedLineArray = new int[1930];
     private static int[] lineNumberWorkArray = new int[1930];
+    // private static List<Integer> lineNumberWorkArray = new ArrayList<>();
 
-    private static List<String> methodSignatureList = new ArrayList<>();
-    private static List<String> statementList = new ArrayList<>();
+    // private static List<String> methodSignatureList = new ArrayList<>();
+    private static String[] methodSignatureArray = new String[1930];
+    // private static List<String> statementList = new ArrayList<>();
+    private static String[] statementArray = new String[1930];
 
     public static double[] scoreArray = new double[1930];
     public static double[] rankArray = new double[1930];
@@ -38,25 +41,26 @@ public class Counter {
     }
 
 
-    public static void addNumTest(int n) {
-        numTest += n;
+    public static void addNumTestPassed(int n) {
+        numTestPassed += n;
     }
 
     public static void addNumTestFailed(int n) {
         numTestFailed += n;
     }
 
-    public static int getNumTest() {
-        return numTest;
+    public static int getNumTestPassed() {
+        return numTestPassed;
     }
 
     public static int getNumTestFailed() {
         return numTestFailed;
     }
 
-    public static void addToLineNumberWorkArray(int i) {
-        if(i > 0) {
-            lineNumberWorkArray[i] = 1; // mark as executed line i
+    public static void addToLineNumberWorkArray(int lineNumber) {
+        if(lineNumber > 0) {
+            lineNumberWorkArray[lineNumber] = 1; // mark as executed line i
+            // lineNumberWorkArray.add(lineNumber);
         }
     }
 
@@ -67,6 +71,10 @@ public class Counter {
                 lineNumberWorkArray[i] = 0;
             }
         }
+        // for(Integer l : lineNumberWorkArray){
+        //     passedLineArray[l] += 1;
+        // }
+        // lineNumberWorkArray.clear();
     }
 
     public static void addToLineArraysFailed(){
@@ -75,6 +83,10 @@ public class Counter {
                 failedLineArray[i] += 1; lineNumberWorkArray[i] = 0;
             }
         }
+        // for(Integer l : lineNumberWorkArray){
+        //     failedLineArray[l] += 1;
+        // }
+        // lineNumberWorkArray.clear();
     }
 
     public static int[] getPassedLineArray(){
@@ -85,23 +97,34 @@ public class Counter {
         return failedLineArray;
     }
 
-    public static void addMethodSignature(String item){
-        methodSignatureList.add(item);
+    // public static void addMethodSignature(String item){
+    //     methodSignatureList.add(item);
+    // }
+    public static void addMethodSignature(int lineNumber, String methodSignature){
+        methodSignatureArray[lineNumber] = methodSignature;
     }
 
-    public static void addStatement(String item){
-        statementList.add(item);
+    // public static void addStatement(String item){
+    //     statementList.add(item);
+    // }
+
+    public static void addStatement(int lineNumber, String stmtStr){
+        statementArray[lineNumber] = stmtStr;
     }
 
-    public static List<String> getMethodSignatureList(){
-        return methodSignatureList;
+    // public static List<String> getMethodSignatureList(){
+    public static String[] getMethodSignatureList(){
+        // return methodSignatureList;
+        return methodSignatureArray;
     }
 
-    public static List<String> getStatementList(){
-        return statementList;
+    // public static List<String> getStatementList(){
+    public static String[] getStatementList(){
+        // return statementList;
+        return statementArray;
     }
 
-    public static void chnageIfTestFailed(boolean flag){
+    public static void changeIfTestFailed(boolean flag){
         ifTestFailed = flag;
     }
 
