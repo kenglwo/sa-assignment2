@@ -1,4 +1,9 @@
  javac -g -d .\raw-classes\ .\src\main\java\comp5111\assignment\cut\ToolBox.java
+ javac -g -d .\target\classes .\src\main\java\comp5111\assignment\cut\ToolBox.java
+
+ javac -g -d .\raw-classes\ -classpath .\raw-classes .\src\main\java\comp5111\assignment\cut\ToolBoxTest.java
+ javac -g -d .\raw-classes\ -classpath .\raw-classes .\src\main\java\comp5111\assignment\cut\ToolBox.java
+ java -classpath .\raw-classes comp5111.assignment.cut.ToolBoxTest
  
 
  # instrument with Soot
@@ -25,3 +30,27 @@ javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\fault-revea
  java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 3 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
  java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 4 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
  java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 5 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+
+
+
+# Task 3
+# compile test suites
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java .\src\test\refined-randoop0\comp5111\assignment\cut\Regression_15_Test.java .\src\test\refined-randoop0\comp5111\assignment\cut\Regression_15_Test0.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 6 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\refined-randoop1\comp5111\assignment\cut\Regression_4_Test.java src\test\refined-randoop1\comp5111\assignment\cut\Regression_4_Test0.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 7 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java src\test\refined-randoop2\comp5111\assignment\cut\Regression_1_Test.java  src\test\refined-randoop2\comp5111\assignment\cut\Regression_1_Test0.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 8 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+##### evosuite
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\refined-evosuite0 src\test\refined-evosuite0\comp5111\assignment\cut\ToolBox_FaultRevealing0_ESTest.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 9 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\refined-evosuite1 src\test\refined-evosuite1\comp5111\assignment\cut\ToolBox_FaultRevealing1_ESTest.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 10 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools
+
+javac -d target\classes -g -classpath .;.\lib\*;.\src\main\java;test\refined-evosuite2 src\test\refined-evosuite2\comp5111\assignment\cut\ToolBox_FaultRevealing2_ESTest.java
+java -classpath .;.\lib\evosuite-1.0.6.jar;.\lib\soot-4.2.1-jar-with-dependencies.jar;target\classes comp5111.assignment.Assignment2 11 ToolBox ToolBox$ArrayTools ToolBox$CharSequenceTools ToolBox$CharTools ToolBox$LocaleTools ToolBox$RegExTools ToolBox$StringTools

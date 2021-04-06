@@ -1126,7 +1126,7 @@ public class ToolBox {
          * @return true if the CharSequence contains the search character,
          * false if not or {@code null} string input
          */
-        public static boolean contains(final CharSequence seq, final int searchChar) {
+        public static boolean contains(final CharSequence seq, final int searchChar) { // TODO!!
             if (isEmpty(seq)) {
                 return false;
             }
@@ -1350,7 +1350,7 @@ public class ToolBox {
                 return EMPTY;
             }
             final int smallestIndexOfDiff = indexOfDifference(strs);
-            if (smallestIndexOfDiff == INDEX_NOT_FOUND) {
+            if (smallestIndexOfDiff == INDEX_NOT_FOUND) { 
                 // all strings were identical
                 if (strs[0] == null) {
                     return EMPTY;
@@ -1431,7 +1431,7 @@ public class ToolBox {
                                 return i;
                             }
                         } else {
-                            return i;
+                            return i; 
                         }
                     }
                 }
@@ -1562,7 +1562,7 @@ public class ToolBox {
          * @return the index where the strings begin to differ; -1 if they are all equal
          */
         public static int indexOfDifference(final CharSequence... css) {
-            if (ArrayTools.getLength(css) <= 1) {
+            if (ArrayTools.getLength(css) <= 1) { 
                 return INDEX_NOT_FOUND;
             }
             boolean anyStringNull = false;
@@ -1598,7 +1598,7 @@ public class ToolBox {
             // find the position with the first difference across all strings
             int firstDiff = -1;
             for (int stringPos = 0; stringPos < shortestStrLen; stringPos++) {
-                final char comparisonChar = css[0].charAt(stringPos);
+                final char comparisonChar = css[0].charAt(stringPos); 
                 for (int arrayPos = 1; arrayPos < arrayLen; arrayPos++) {
                     if (css[arrayPos].charAt(stringPos) != comparisonChar) {
                         firstDiff = stringPos;
@@ -1830,7 +1830,7 @@ public class ToolBox {
                         return false; // str == "0x"
                     }
                     // checking hex (it can't be anything else)
-                    for (; i < chars.length; i++) {
+                    for (; i < chars.length; i++) { // TODO?
                         if ((chars[i] < '0' || chars[i] > '9')
                             && (chars[i] < 'a' || chars[i] > 'f')
                             && (chars[i] < 'A' || chars[i] > 'F')) {

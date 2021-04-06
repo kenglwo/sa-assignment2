@@ -4042,5 +4042,69 @@ public class Regression_1_Test0 {
         int int2 = comp5111.assignment.cut.ToolBox.StringTools.indexOfAnyBut((java.lang.CharSequence) "\n", (java.lang.CharSequence) "");
         org.junit.Assert.assertTrue("'" + int2 + "' != '" + (-1) + "'", int2 == (-1));
     }
+
+    @Test
+    public void test402() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "Regression_15_Test0.test001");
+        java.lang.String[] strArray0 = new java.lang.String[] {"aaa", " "};
+        java.lang.String str1 = comp5111.assignment.cut.ToolBox.StringTools.getCommonPrefix(strArray0);
+        org.junit.Assert.assertEquals("'" + str1 + "' != '" + "" + "'", str1, "");
+    }
+
+    @Test
+    public void test403() throws Throwable {
+        char[] charArray8 = new char[] { ' ', '4', 'a', '\000', '\000' };
+        int int12 = comp5111.assignment.cut.ToolBox.StringTools.indexOfAny((java.lang.CharSequence) " \r \r \r h \r \r \r i \r \r \r ! \r \r \r ", charArray8);
+        org.junit.Assert.assertTrue("'" + int12 + "' != '" + 0 + "'", int12 == 0);
+    }
+
+    @Test
+    public void test404() throws Throwable {
+      CharSequence[] charSequenceArray0 = new CharSequence[2];
+      charSequenceArray0[0] = (CharSequence) " +u&&6B";
+      charSequenceArray0[1] = (CharSequence) "\r";
+      int int0 = ToolBox.StringTools.indexOfDifference(charSequenceArray0);
+      org.junit.Assert.assertEquals(0, int0); 
+    }
+
+    // ========================================
+    public void test405() throws Throwable {
+        if (debug)
+            System.out.format("%n%s%n", "Regression_15_Test0.test001");
+        java.lang.String[] strArray0 = new java.lang.String[] {"bbb", " "};
+        java.lang.String str1 = comp5111.assignment.cut.ToolBox.StringTools.getCommonPrefix(strArray0);
+        org.junit.Assert.assertEquals("'" + str1 + "' != '" + "" + "'", str1, "");
+    }
+
+    @Test
+    public void test406() throws Throwable {
+        char[] charArray8 = new char[] { ' ', '5', 'b', '\000', '\000' };
+        int int12 = comp5111.assignment.cut.ToolBox.StringTools.indexOfAny((java.lang.CharSequence) " \r \r \r h \r \r \r i \r \r \r ! \r \r \r ", charArray8);
+        org.junit.Assert.assertTrue("'" + int12 + "' != '" + 0 + "'", int12 == 0);
+    }
+
+    @Test
+    public void test407() throws Throwable {
+      CharSequence[] charSequenceArray0 = new CharSequence[2];
+      charSequenceArray0[0] = (CharSequence) " +u&&6B";
+      charSequenceArray0[1] = (CharSequence) "\n";
+      int int0 = ToolBox.StringTools.indexOfDifference(charSequenceArray0);
+      org.junit.Assert.assertEquals(0, int0); 
+    }
+
+    @Test
+    public void test408() throws Throwable {
+        boolean boolean0 = ToolBox.StringTools.isCreatable("6");
+        org.junit.Assert.assertTrue(boolean0);
+    }
+
+    @Test
+    public void test409() throws Throwable {
+        boolean boolean0 = ToolBox.StringTools.isCreatable("5");
+        org.junit.Assert.assertTrue(boolean0);
+    }
+
+    // #################################
 }
 

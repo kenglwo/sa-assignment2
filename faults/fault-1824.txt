@@ -1,0 +1,17 @@
+line: 1824
+
+final int start = chars[0] == '-' || chars[0] == '+' ? 1 : 0;
+
+The original code is always assign 1 to the var start. 
+
+<evosuite0>
+suspicious score: 0.22
+rank: 39
+
+<evosuite1>
+suspicious score: 0.22
+rank: 45
+
+<evosuite2>
+suspicious score: 0.26
+rank: 31

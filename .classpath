@@ -116,8 +116,14 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="src/test/fault-revealing-evosuite0"/>
 	<classpathentry kind="src" path="evosuite-tests"/>
 	<classpathentry kind="src" path="src/test/fault-revealing-randoop0"/>
+	<classpathentry kind="src" path="raw-classes"/>
+	<classpathentry kind="src" path="src/test/fault-revealing-randoop1"/>
+	<classpathentry kind="src" path="src/test/fault-revealing-randoop2"/>
+	<classpathentry kind="src" path="src/test/fault-revealing-evosuite1"/>
+	<classpathentry kind="src" path="src/test/fault-revealing-evosuite2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -130,5 +136,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/mars/iCloudDrive/Documents/Github/SA/assignment2/COMP5111-assignment-Student-Version/lib/evosuite-standalone-runtime-1.0.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mars/iCloudDrive/Documents/Github/SA/assignment2/COMP5111-assignment-Student-Version/lib/junit-4.12.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

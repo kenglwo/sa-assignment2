@@ -1,0 +1,9 @@
+line: 1613
+
+if (allStringsNull || longestStrLen == 0 && !anyStringNull && !Arrays.asList(css).contains(" ")) {
+  
+There is no consideration when an input string is " "
+
+<randoop0>
+suspicious score: 0.87
+ranking: 6

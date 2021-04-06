@@ -214,6 +214,24 @@ public class EntryPoint {
           case 5:
             fileName = "spectrum_fl_ochiai_evosuite2.tsv";
             break;
+          case 6:
+            fileName = "spectrum_fl_ochiai_refined_randoop0.tsv";
+            break;
+          case 7:
+            fileName = "spectrum_fl_ochiai_refined_randoop1.tsv";
+            break;
+          case 8:
+            fileName = "spectrum_fl_ochiai_refined_randoop2.tsv";
+            break;
+          case 9:
+            fileName = "spectrum_fl_ochiai_refined_evosuite0.tsv";
+            break;
+          case 10:
+            fileName = "spectrum_fl_ochiai_refined_evosuite1.tsv";
+            break;
+          case 11:
+            fileName = "spectrum_fl_ochiai_refined_evosuite2.tsv";
+            break;
         }
         try {
           FileWriter fw = new FileWriter(fileName);
@@ -270,6 +288,9 @@ public class EntryPoint {
         try {
             // here we programmitically run junit tests
             // testClass = Class.forName(testArray[i]);
+            if(testIndex > 5){
+              testIndex -= 6;
+            }
             testClass = Class.forName(testArray[testIndex]);
             // testClass = Class.forName("comp5111.assignment.cut.RegressionTest");
             JUnitCore junit = new JUnitCore();

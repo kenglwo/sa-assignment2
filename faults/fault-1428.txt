@@ -1,0 +1,9 @@
+line: 1428
+
+if (i < csLast && j < searchLast && Character.isHighSurrogate(ch)) {
+
+change from || to && to immediately execute "return i" when ch is " "
+
+<randoop0>
+suspicious score: 0.35
+ranking: 28
